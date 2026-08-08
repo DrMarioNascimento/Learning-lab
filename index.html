@@ -892,7 +892,44 @@ function veredicto(score){
 }
 
 /* ===================== NAV ===================== */
-function goto(screen){STATE.screen=screen;window.scrollTo(0,0);render();}
+function goto(screen){
+  STATE.screen=screen;
+  window.scrollTo(0,0);
+  render();
+  try{ sincronizarFaseAlunoFB(screen); }catch(e){ console.error(e); }
+}
+
+function sincronizarFaseAlunoFB(screen){
+  const a = STATE.alunoSessao;
+  if(!a || !a.codigo || !a.alunoId) return;
+  if(!window.LabFB) return;
+  let fase = screen;
+  let faseNome = screen;
+  let progresso = 0;
+  let status = 'andamento';
+  if(typeof STEP_META !== 'undefined' && STEP_META[screen]){
+    faseNome = STEP_META[screen].label;
+    progresso = STEP_META[screen].n || 0;
+  } else if(screen === 'subarea' || screen === 'cenario'){
+    faseNome = screen === 'subarea' ? 'Subárea' : 'Cenário';
+    progresso = 0;
+    status = 'andamento';
+  } else if(screen === 'inicio'){
+    return; // não sobrescreve
+  } else if(screen === 'parecer'){
+    faseNome = 'Parecer Final';
+    progresso = 10;
+    status = 'andamento';
+  }
+  if(screen === 'parecer') status = 'andamento';
+  window.LabFB.atualizarAluno(a.codigo, a.alunoId, {
+    fase: fase,
+    faseNome: faseNome,
+    progresso: progresso,
+    status: status
+  }).catch(function(e){ console.error('sync fase', e); });
+}
+
 function iniciarNovo(modo){
   STATE.modo=modo||'classico';
   STATE.subarea=null;STATE.cenario=null;
@@ -1938,6 +1975,17 @@ function bootstrapSalaFromQuery(){
     }
   }catch(e){}
 }
+
+(function restaurarAlunoSessao(){
+  try{
+    const raw = sessionStorage.getItem('lab_aluno_sessao');
+    if(raw){
+      const a = JSON.parse(raw);
+      if(a && a.codigo && a.alunoId) STATE.alunoSessao = a;
+    }
+  }catch(e){}
+})();
+
 bootstrapSalaFromQuery();
 
 render();
