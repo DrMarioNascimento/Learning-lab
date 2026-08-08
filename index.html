@@ -1089,27 +1089,38 @@ function criarSessaoLocal(){
       }
     }catch(e){
       console.error(e);
-      alert("Não foi possível criar a sessão no Firebase. Verifique se o Firestore está criado e em modo teste.\n\n" + (e.message||e));
+      const msg = (e && (e.message || e.code)) || String(e);
+      alert("Não foi possível criar a sessão no Firebase.\n\n" + msg + "\n\nConfira: Firestore criado? Regras em modo teste?");
     }
   };
   run();
 }
 
 let _unsubAlunos = null;
+let _listenCodigo = null;
 function iniciarListenerAlunos(codigo){
+  if(!codigo) return;
+  if(_unsubAlunos && _listenCodigo === codigo) return; // já ouvindo esta sala
   if(_unsubAlunos){ try{ _unsubAlunos(); }catch(e){} _unsubAlunos=null; }
-  if(!window.LabFB || !codigo) return;
-  _unsubAlunos = window.LabFB.ouvirAlunos(codigo, (lista) => {
-    if(!STATE.sessaoOrientador || STATE.sessaoOrientador.codigo !== codigo) return;
-    STATE.sessaoOrientador.alunos = lista || [];
-    // re-render only orientador panel if visible
-    if(STATE.screen === 'orientador') render();
-  });
+  _listenCodigo = codigo;
+  const start = () => {
+    if(!window.LabFB) return;
+    _unsubAlunos = window.LabFB.ouvirAlunos(codigo, (lista) => {
+      if(!STATE.sessaoOrientador || STATE.sessaoOrientador.codigo !== codigo) return;
+      STATE.sessaoOrientador.alunos = lista || [];
+      STATE.sessaoOrientador.fb = true;
+      try{ sessionStorage.setItem('lab_sessao_orientador', JSON.stringify(STATE.sessaoOrientador)); }catch(e){}
+      if(STATE.screen === 'orientador') render();
+    });
+  };
+  if(window.LabFB) start();
+  else window.addEventListener('labfb-ready', start, { once:true });
 }
 
 function encerrarSessaoLocal(){
   const cod = STATE.sessaoOrientador && STATE.sessaoOrientador.codigo;
   if(_unsubAlunos){ try{ _unsubAlunos(); }catch(e){} _unsubAlunos=null; }
+  _listenCodigo = null;
   if(cod && window.LabFB){
     window.LabFB.encerrarSessao(cod).catch(()=>{});
   }
@@ -1144,9 +1155,48 @@ function copiarTextoSessao(txt){
   }
 }
 
+
+function htmlGridAlunosOrientador(alunos){
+  alunos = alunos || [];
+  if(!alunos.length){
+    var empty = '';
+    for(var i=0;i<4;i++){
+      empty += '<div class="aluno-card-mock empty"><div class="av">👤</div><div class="nm">Aguardando…</div><div class="ph">—</div></div>';
+    }
+    return empty;
+  }
+  return alunos.map(function(a){
+    var st = a.status||'entrou';
+    var cor = st==='concluiu' ? 'border-color:var(--green-ok);' : (st==='andamento' ? 'border-color:var(--gold);' : '');
+    var nome = String(a.nome||'Aluno').replace(/</g,'');
+    var fase = String(a.faseNome||a.fase||'—').replace(/</g,'');
+    var av = a.avatar||'👤';
+    return '<div class="aluno-card-mock" style="'+cor+'"><div class="av">'+av+'</div><div class="nm">'+nome+'</div><div class="ph">'+fase+'</div></div>';
+  }).join('');
+}
+
 function screenOrientador(){
   restaurarSessaoLocal();
   const s = STATE.sessaoOrientador;
+  if(s && s.codigo){
+    // sempre tenta ouvir (mesmo se fb flag ainda false)
+    iniciarListenerAlunos(s.codigo);
+    setTimeout(async () => {
+      if(!window.LabFB || !STATE.sessaoOrientador || STATE.screen!=='orientador') return;
+      if((STATE.sessaoOrientador.alunos||[]).length) return;
+      try{
+        const lista = await window.LabFB.listarAlunos(STATE.sessaoOrientador.codigo);
+        if(lista && lista.length){
+          STATE.sessaoOrientador.alunos = lista;
+          STATE.sessaoOrientador.fb = true;
+          render();
+        } else {
+          _listenCodigo = null;
+          iniciarListenerAlunos(STATE.sessaoOrientador.codigo);
+        }
+      }catch(e){ console.error(e); }
+    }, 800);
+  }
 
   if(!s){
     return `<div class="brand"><div><div class="brand-name">Área restrita</div><div class="brand-title">Módulo do Orientador</div></div></div>
@@ -1179,25 +1229,9 @@ function screenOrientador(){
     </div>
 
     <div class="card" style="margin-top:12px;">
-      <span class="eyebrow">Turma (mock)</span>
-      <p class="muted" style="font-size:12.5px;margin:0 0 8px;">Grid fixo de demonstração. Alunos reais entram quando o Firebase for ligado.</p>
-      <div class="grid-alunos-mock">
-        ${(() => {
-          const alunos = s.alunos || [];
-          if(!alunos.length){
-            return [0,1,2,3].map(()=>`<div class="aluno-card-mock empty"><div class="av">👤</div><div class="nm">Aguardando…</div><div class="ph">—</div></div>`).join('');
-          }
-          return alunos.map(a => {
-            const st = a.status||'entrou';
-            const cor = st==='concluiu'?'border-color:var(--green-ok);':(st==='andamento'?'border-color:var(--gold);':'');
-            return `<div class="aluno-card-mock" style="${cor}">
-              <div class="av">${a.avatar||'👤'}</div>
-              <div class="nm">${(a.nome||'Aluno').replace(/</g,'')}</div>
-              <div class="ph">${(a.faseNome||a.fase||'—').replace(/</g,'')}</div>
-            </div>`;
-          }).join('');
-        })()}
-      </div>
+      <span class="eyebrow">Turma ao vivo</span>
+      <p class="muted" style="font-size:12.5px;margin:0 0 8px;">Alunos aparecem aqui ao entrar com o código da sala.</p>
+      <div class="grid-alunos-mock">${htmlGridAlunosOrientador(s.alunos)}</div>
     </div>
 
     <button class="btn btn-secondary btn-block" style="margin-top:14px;" onclick="encerrarSessaoLocal()">Encerrar sessão</button>
@@ -1261,7 +1295,7 @@ async function confirmarCodigoSala(){
     goto('entrarSalaDados');
   }catch(e){
     console.error(e);
-    if(err) err.textContent = 'Erro ao verificar a sala. Tente de novo.';
+    if(err) err.textContent = 'Erro: ' + ((e && e.message) || 'ao verificar a sala');
   }
 }
 
@@ -1307,7 +1341,7 @@ async function confirmarDadosAlunoSala(){
     });
   }catch(e){
     console.error(e);
-    if(err) err.textContent = 'Não foi possível entrar na sala (Firebase).';
+    if(err) err.textContent = 'Firebase: ' + ((e && (e.message||e.code)) || 'falha ao entrar');
     return;
   }
   iniciarNovo('classico');
@@ -1913,7 +1947,7 @@ render();
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
 import {
   getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc,
-  collection, onSnapshot, serverTimestamp
+  collection, onSnapshot, serverTimestamp, getDocs
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1972,11 +2006,19 @@ window.LabFB = {
     return onSnapshot(col, (snap) => {
       const lista = [];
       snap.forEach(docu => lista.push({ id: docu.id, ...docu.data() }));
+      console.log("alunos snapshot", codigo, lista.length);
       callback(lista);
     }, (err) => {
       console.error("ouvirAlunos", err);
       callback([]);
     });
+  },
+  async listarAlunos(codigo){
+    const col = collection(db, "sessoes", codigo, "alunos");
+    const snap = await getDocs(col);
+    const lista = [];
+    snap.forEach(docu => lista.push({ id: docu.id, ...docu.data() }));
+    return lista;
   }
 };
 
