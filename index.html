@@ -698,14 +698,19 @@ body{
 }
 .grid-alunos-mock{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(128px, 1fr));
-  gap:12px;
+  grid-template-columns:repeat(auto-fill, minmax(118px, 1fr));
+  gap:10px;
   width:100%;
   max-height:min(62vh, 560px);
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   padding:2px 4px 10px 2px;
   margin:0 -2px;
+}
+@media(min-width:820px){
+  .grid-alunos-mock{
+    max-height:min(68vh, 640px);
+  }
 }
 /* Cards 3D + status + score em destaque */
 .aluno-card-mock{
@@ -805,12 +810,15 @@ body{
   .modal-rel-backdrop{align-items:center;padding:16px;}
 }
 .modal-rel{
-  background:var(--paper);width:100%;max-width:480px;max-height:92vh;
+  background:var(--paper);width:100%;max-width:520px;max-height:92vh;
   border-radius:16px 16px 0 0;overflow:hidden;display:flex;flex-direction:column;
   box-shadow:0 -8px 40px rgba(15,46,36,.25);
 }
 @media(min-width:560px){
   .modal-rel{border-radius:16px;max-height:88vh;}
+}
+@media(min-width:700px){
+  .modal-rel{max-width:560px;}
 }
 .modal-rel-head{
   padding:14px 16px;background:linear-gradient(180deg,var(--green-dark),var(--green-mid));
@@ -843,18 +851,52 @@ body{
   text-align:center;padding:28px 16px;color:var(--ink-soft);font-size:14px;
   border:1.5px dashed rgba(15,46,36,.2);border-radius:12px;background:rgba(255,255,255,.4);
 }
-/* Accordion body enriquecido com teoria */
-.acc-body .escolha-label{
-  font-weight:700;color:var(--green-dark);margin-bottom:6px;font-size:13.5px;
+/* Accordion: subcards de todas as opções da etapa */
+.acc-body .opt-stack{display:flex;flex-direction:column;gap:8px;margin-top:2px;}
+.acc-body .opt-sub{
+  border:1.5px solid rgba(15,46,36,.12);
+  border-radius:10px;
+  padding:10px 12px;
+  background:#fff;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 2px 0 rgba(15,46,36,.06);
 }
-.acc-body .teoria-texto{
-  font-size:12.5px;line-height:1.5;color:var(--ink);margin:0 0 8px;
+.acc-body .opt-sub.escolhida{
+  border-color:var(--green-ok);
+  background:linear-gradient(180deg,#f3faf6 0%,#e4f2ea 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 3px 0 rgba(44,99,73,.2),
+    0 6px 12px rgba(15,46,36,.08);
 }
-.acc-body .outras-opts{
-  margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,46,36,.12);
-  font-size:11.5px;color:var(--ink-soft);
+.acc-body .opt-sub .opt-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-bottom:4px;
 }
-.acc-body .outras-opts strong{color:var(--green-dark);}
+.acc-body .opt-sub .opt-titulo{
+  font-weight:700;font-size:13px;color:var(--green-dark);
+}
+.acc-body .opt-sub.escolhida .opt-titulo{color:var(--green-ok);}
+.acc-body .opt-sub .opt-badge{
+  flex-shrink:0;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;
+  padding:2px 7px;border-radius:999px;
+  background:rgba(44,99,73,.15);color:var(--green-ok);border:1px solid rgba(44,99,73,.3);
+}
+.acc-body .opt-sub .opt-extra{
+  font-size:11px;color:var(--ink-soft);margin-bottom:4px;
+}
+.acc-body .opt-sub .opt-verso{
+  font-size:12.5px;line-height:1.48;color:var(--ink);margin:0;
+}
+.acc-body .opt-sub:not(.escolhida) .opt-verso{
+  color:var(--ink-soft);
+}
+.acc-body .texto-livre{
+  font-size:13px;line-height:1.5;color:var(--ink);
+  padding:8px 10px;background:#fff;border-radius:8px;
+  border:1.5px solid rgba(15,46,36,.1);
+  white-space:pre-wrap;
+}
 
 </style>
 </head>
@@ -1425,72 +1467,60 @@ function htmlGridAlunosOrientador(alunos){
 
 function fecharModalRelAluno(){ var el=document.getElementById("modalRelAluno"); if(el) el.remove(); }
 
-/** Busca a opção completa (com verso teórico) a partir do texto ou id salvo */
-function acharOpcaoTeoria(chave, valorSalvo){
-  if(!valorSalvo) return null;
-  var v = (typeof valorSalvo === 'object') ? (valorSalvo.texto || valorSalvo.id || '') : String(valorSalvo);
-  v = v.trim();
-  if(!v) return null;
-
-  // Procedimentos
+/** Lista completa de opções de uma etapa (para o acordeão do relatório) */
+function listaOpcoesDaEtapa(chave){
   if(chave === 'procedimento'){
-    var p = DATA.procedimentos.find(function(x){ return x.id===v || x.nome===v; });
-    if(p) return { texto: p.nome, verso: p.desc, id: p.id };
-    return { texto: v, verso: null };
+    return DATA.procedimentos.map(function(p){
+      return { id: p.id, texto: p.nome, extra: '', verso: p.desc };
+    });
   }
-
-  // Campos livres (amostra, viVd, controle)
-  if(chave === 'amostra' || chave === 'viVd' || chave === 'controle'){
-    return { texto: v, verso: null, livre: true };
-  }
-
-  // Opções de flip-cards
-  var prefixMap = {
-    natureza: 'G_NAT',
-    finalidade: 'G_FIN',
-    abordagem: 'G_ABO',
-    metodo: 'G_MET',
-    temporalidade: 'G_TEM',
-    validade: 'G_VAL'
-  };
-  var prefix = prefixMap[chave];
-  if(!prefix) return { texto: v, verso: null };
-
-  var lista = DATA.opcoes.filter(function(o){ return o.id.indexOf(prefix) === 0; });
-  var found = lista.find(function(o){ return o.texto === v || o.id === v; });
-  if(found) return found;
-  // fallback: se o aluno salvou o objeto inteiro
-  if(typeof valorSalvo === 'object' && valorSalvo.verso) return valorSalvo;
-  return { texto: v, verso: null };
-}
-
-function outrasOpcoesMesmaCategoria(chave, escolhidaTexto){
   var prefixMap = {
     natureza: 'G_NAT', finalidade: 'G_FIN', abordagem: 'G_ABO',
     metodo: 'G_MET', temporalidade: 'G_TEM', validade: 'G_VAL'
   };
   var prefix = prefixMap[chave];
-  if(!prefix) return '';
-  var lista = DATA.opcoes.filter(function(o){ return o.id.indexOf(prefix) === 0; });
-  var outras = lista.filter(function(o){ return o.texto !== escolhidaTexto; }).map(function(o){ return o.texto; });
-  if(!outras.length) return '';
-  return '<div class="outras-opts"><strong>Outras opções nesta etapa:</strong> '+outras.join(' · ')+'</div>';
+  if(!prefix) return [];
+  return DATA.opcoes
+    .filter(function(o){ return o.id.indexOf(prefix) === 0; })
+    .sort(function(a,b){ return (a.ordem||0)-(b.ordem||0); });
+}
+
+/** Normaliza o valor salvo pelo aluno (texto ou id ou objeto) */
+function normalizarEscolha(valorSalvo){
+  if(!valorSalvo) return '';
+  if(typeof valorSalvo === 'object'){
+    return String(valorSalvo.texto || valorSalvo.id || valorSalvo.nome || '').trim();
+  }
+  return String(valorSalvo).trim();
+}
+
+/** Monta subcards de TODAS as opções; a escolhida fica em destaque */
+function htmlSubcardsOpcoes(chave, valorSalvo){
+  var escolhido = normalizarEscolha(valorSalvo);
+  var lista = listaOpcoesDaEtapa(chave);
+  if(!lista.length){
+    // campo livre
+    var txt = escolhido || '—';
+    return '<div class="texto-livre">'+txt.replace(/</g,'&lt;')+'</div>';
+  }
+  return '<div class="opt-stack">'+lista.map(function(o){
+    var isEscolhida = (o.texto === escolhido || o.id === escolhido || o.nome === escolhido);
+    var badge = isEscolhida ? '<span class="opt-badge">Escolha do aluno</span>' : '';
+    var extra = o.extra ? '<div class="opt-extra">'+String(o.extra).replace(/</g,'&lt;')+'</div>' : '';
+    var verso = o.verso ? '<p class="opt-verso">'+String(o.verso).replace(/</g,'&lt;')+'</p>' : '';
+    return '<div class="opt-sub'+(isEscolhida?' escolhida':'')+'">'+
+      '<div class="opt-head"><span class="opt-titulo">'+String(o.texto||o.nome||'').replace(/</g,'&lt;')+'</span>'+badge+'</div>'+
+      extra + verso +
+    '</div>';
+  }).join('')+'</div>';
 }
 
 function rowTeoria(titulo, chave, valorSalvo){
-  var opt = acharOpcaoTeoria(chave, valorSalvo);
-  var escolhido = (opt && opt.texto) ? opt.texto : '—';
-  var body = '';
-  if(opt && opt.livre){
-    body = '<div class="escolha-label">Texto do aluno</div><p class="teoria-texto">'+(escolhido.replace(/</g,'&lt;'))+'</p>';
-  } else if(opt && opt.verso){
-    body = '<div class="escolha-label">Escolha do aluno: '+escolhido.replace(/</g,'&lt;')+'</div>'+
-           '<p class="teoria-texto">'+String(opt.verso).replace(/</g,'&lt;')+'</p>'+
-           outrasOpcoesMesmaCategoria(chave, escolhido);
-  } else {
-    body = '<p class="teoria-texto">'+(escolhido.replace(/</g,'&lt;'))+'</p>';
-  }
-  return '<details class="acc-item"><summary>'+titulo+' <span style="font-weight:500;opacity:.7;font-size:12px;">· '+escolhido.replace(/</g,'&lt;')+'</span></summary><div class="acc-body">'+body+'</div></details>';
+  var escolhido = normalizarEscolha(valorSalvo) || '—';
+  var body = htmlSubcardsOpcoes(chave, valorSalvo);
+  return '<details class="acc-item"><summary>'+titulo+
+    ' <span style="font-weight:500;opacity:.7;font-size:12px;">· '+escolhido.replace(/</g,'&lt;')+'</span>'+
+    '</summary><div class="acc-body">'+body+'</div></details>';
 }
 
 function abrirRelatorioAluno(idx){
