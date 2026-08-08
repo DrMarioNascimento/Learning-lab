@@ -640,65 +640,87 @@ body{
 .orientador-shell .eyebrow{margin-bottom:4px;}
 
 
-/* Painel Orientador — sessão + grid responsivo */
+/* Painel Orientador — QR lateral + turma no centro */
 .orientador-shell{max-width:1100px;margin:0 auto;width:100%;}
+
 .sessao-layout{
   display:flex;flex-direction:column;gap:14px;align-items:stretch;
 }
-@media(min-width:900px){
+@media(min-width:820px){
   .sessao-layout{
     display:grid;
-    grid-template-columns: 320px minmax(0,1fr);
-    gap:16px;align-items:start;
+    grid-template-columns: 200px minmax(0,1fr);
+    gap:16px;
+    align-items:start;
   }
 }
-.turma-panel{min-width:0;width:100%;}
 
-.sessao-box{text-align:center;padding:8px 0 4px;}
+/* Coluna lateral: QR + código + ações */
+.sessao-side{
+  text-align:center;padding:14px 12px;
+}
 .sessao-codigo{
-  font-family:var(--mono);font-size:1.75rem;font-weight:700;letter-spacing:.18em;
-  color:var(--green-dark);margin:8px 0 4px;
-}
-.sessao-qr{
-  width:180px;height:180px;margin:12px auto;border-radius:12px;
-  background:#fff;border:1.5px solid var(--line);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.9) inset,
-    0 6px 0 rgba(15,46,36,.12),
-    0 12px 24px rgba(15,46,36,.12);
-}
-.sessao-qr img{width:100%;height:100%;object-fit:contain;display:block;}
-.sessao-link{
-  font-size:11px;color:var(--ink-soft);word-break:break-all;
-  margin:8px 0 0;font-family:var(--mono);
+  font-family:var(--mono);font-size:1.35rem;font-weight:700;letter-spacing:.12em;
+  color:var(--green-dark);line-height:1.2;margin:6px 0 4px;
 }
 .sessao-status{
-  display:inline-block;margin-top:10px;padding:4px 10px;border-radius:999px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  display:inline-block;margin:4px 0 10px;padding:3px 8px;border-radius:999px;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
   background:rgba(44,99,73,.12);color:var(--green-ok);border:1px solid rgba(44,99,73,.25);
 }
-.turma-panel{min-height:200px;min-width:0;width:100%;}
+.sessao-qr-side{
+  width:140px;height:140px;margin:0 auto 10px;border-radius:12px;
+  background:#fff;border:1.5px solid var(--line);overflow:hidden;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 5px 0 rgba(15,46,36,.12),
+    0 10px 18px rgba(15,46,36,.1);
+}
+.sessao-qr-side img{width:100%;height:100%;object-fit:contain;display:block;}
+.sessao-link-sm{
+  font-size:10px;color:var(--ink-soft);word-break:break-all;
+  margin:6px 0 10px;font-family:var(--mono);line-height:1.35;
+}
+.sessao-side .btn{width:100%;margin-top:6px;padding:9px 10px;font-size:13px;}
+.sessao-side .btn-row{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+
+/* Turma = centro (área principal) */
+.turma-panel{
+  min-width:0;width:100%;
+  display:flex;flex-direction:column;
+  min-height:280px;
+}
+.turma-panel .turma-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px;
+}
+.turma-panel .turma-count{
+  font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+}
 .grid-alunos-mock{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(148px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(128px, 1fr));
   gap:12px;
-  margin-top:12px;
   width:100%;
+  max-height:min(62vh, 560px);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:2px 4px 10px 2px;
+  margin:0 -2px;
 }
-/* Cards fixos + 3D + status */
+/* Cards 3D + status + score em destaque */
 .aluno-card-mock{
   width:100%;
-  height:108px;
+  min-height:118px;
   box-sizing:border-box;
   background:linear-gradient(180deg, #fffef9 0%, var(--paper) 55%, var(--paper-2) 100%);
   border:1.5px solid rgba(15,46,36,.16);
   border-radius:12px;
-  padding:12px 10px 10px;
+  padding:10px 8px 10px;
   text-align:center;
   overflow:hidden;
   cursor:pointer;
   transition:transform .12s ease, box-shadow .12s ease;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   box-shadow:
     0 1px 0 rgba(255,255,255,.95) inset,
     0 5px 0 rgba(15,46,36,.14),
@@ -711,19 +733,31 @@ body{
     0 2px 0 rgba(15,46,36,.12),
     0 4px 10px rgba(15,46,36,.1);
 }
-.aluno-card-mock .av{font-size:26px;line-height:1;}
+.aluno-card-mock .av{font-size:24px;line-height:1;margin-bottom:2px;}
 .aluno-card-mock .nm{
-  font-size:13px;font-weight:700;color:var(--green-dark);margin-top:6px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:12.5px;font-weight:700;color:var(--green-dark);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+  margin-top:2px;
 }
 .aluno-card-mock .ph{
-  font-size:11px;color:var(--ink-soft);margin-top:3px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:10.5px;color:var(--ink-soft);margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
   font-family:var(--mono);
+}
+.aluno-card-mock .sc{
+  margin-top:auto;padding-top:6px;
+  font-family:var(--display);font-size:1.35rem;font-weight:700;
+  color:var(--green-dark);line-height:1;
+  letter-spacing:-0.02em;
+}
+.aluno-card-mock .sc span{font-size:.7em;opacity:.75;font-weight:600;}
+.aluno-card-mock .sc-empty{
+  margin-top:auto;padding-top:6px;
+  font-size:11px;color:var(--ink-soft);opacity:.7;
 }
 .aluno-card-mock.empty{
   opacity:.5;border-style:dashed;cursor:default;
-  box-shadow:none;height:108px;
+  box-shadow:none;min-height:118px;
 }
 /* status cores */
 .aluno-card-mock.st-entrou{
@@ -746,6 +780,8 @@ body{
     0 5px 0 rgba(44,99,73,.28),
     0 10px 18px rgba(15,46,36,.12);
 }
+.aluno-card-mock.st-concluiu .sc{color:var(--green-ok);}
+
 
 
 .codigo-sala-input{
@@ -807,19 +843,18 @@ body{
   text-align:center;padding:28px 16px;color:var(--ink-soft);font-size:14px;
   border:1.5px dashed rgba(15,46,36,.2);border-radius:12px;background:rgba(255,255,255,.4);
 }
-.grid-alunos-mock{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
-  gap:12px;
-  margin-top:12px;
-  width:100%;
+/* Accordion body enriquecido com teoria */
+.acc-body .escolha-label{
+  font-weight:700;color:var(--green-dark);margin-bottom:6px;font-size:13.5px;
 }
-.aluno-card-mock{
-  width:100%;
-  min-width:0;
-  height:108px;
-  max-width:100%;
+.acc-body .teoria-texto{
+  font-size:12.5px;line-height:1.5;color:var(--ink);margin:0 0 8px;
 }
+.acc-body .outras-opts{
+  margin-top:8px;padding-top:8px;border-top:1px dashed rgba(15,46,36,.12);
+  font-size:11.5px;color:var(--ink-soft);
+}
+.acc-body .outras-opts strong{color:var(--green-dark);}
 
 </style>
 </head>
@@ -1074,13 +1109,19 @@ function enviarRelatorioAlunoFB(){
   try{
     const r = calcularRigor();
     const descricao = montarDescricaoMetodo();
+    // Guarda texto + id + verso para o relatório do orientador poder reabrir a teoria
+    function packOpt(o){
+      if(!o) return '';
+      if(typeof o === 'string') return o;
+      return { id: o.id||'', texto: o.texto||o.nome||'', verso: o.verso||o.desc||'' };
+    }
     const escolhas = {
-      natureza: STATE.fase1 && STATE.fase1.natureza ? (STATE.fase1.natureza.texto||STATE.fase1.natureza.id||'') : '',
-      finalidade: STATE.fase1 && STATE.fase1.finalidade ? (STATE.fase1.finalidade.texto||'') : '',
-      abordagem: STATE.fase2 && STATE.fase2.abordagem ? (STATE.fase2.abordagem.texto||'') : '',
-      metodo: STATE.fase2 && STATE.fase2.metodo ? (STATE.fase2.metodo.texto||'') : '',
+      natureza: packOpt(STATE.fase1 && STATE.fase1.natureza),
+      finalidade: packOpt(STATE.fase1 && STATE.fase1.finalidade),
+      abordagem: packOpt(STATE.fase2 && STATE.fase2.abordagem),
+      metodo: packOpt(STATE.fase2 && STATE.fase2.metodo),
       procedimento: STATE.fase3 ? (STATE.fase3.procedimento||'') : '',
-      temporalidade: STATE.fase3 && STATE.fase3.temporalidade ? (STATE.fase3.temporalidade.texto||STATE.fase3.temporalidade||'') : '',
+      temporalidade: packOpt(STATE.fase3 && STATE.fase3.temporalidade),
       amostra: STATE.fase3 ? (STATE.fase3.amostra||'') : '',
       viVd: STATE.fase3 ? (STATE.fase3.viVd||'') : '',
       controle: STATE.fase3 ? (STATE.fase3.controle||'') : ''
@@ -1372,22 +1413,93 @@ function htmlGridAlunosOrientador(alunos){
     var nome = String(a.nome||'Aluno').replace(/</g,'').replace(/"/g,'');
     var fase = String(a.faseNome||a.fase||'—').replace(/</g,'');
     var av = a.avatar||'👤';
-    var score = (a.scores && a.scores.final != null) ? (' · '+a.scores.final+'%') : '';
-    return '<div class="aluno-card-mock st-'+st+'" onclick="abrirRelatorioAluno('+idx+')"><div class="av">'+av+'</div><div class="nm">'+nome+'</div><div class="ph">'+fase+score+'</div></div>';
+    var scoreHtml = '';
+    if(a.scores && a.scores.final != null){
+      scoreHtml = '<div class="sc">'+a.scores.final+'<span>%</span></div>';
+    } else {
+      scoreHtml = '<div class="sc-empty">em andamento</div>';
+    }
+    return '<div class="aluno-card-mock st-'+st+'" onclick="abrirRelatorioAluno('+idx+')"><div class="av">'+av+'</div><div class="nm">'+nome+'</div><div class="ph">'+fase+'</div>'+scoreHtml+'</div>';
   }).join('');
 }
 
 function fecharModalRelAluno(){ var el=document.getElementById("modalRelAluno"); if(el) el.remove(); }
+
+/** Busca a opção completa (com verso teórico) a partir do texto ou id salvo */
+function acharOpcaoTeoria(chave, valorSalvo){
+  if(!valorSalvo) return null;
+  var v = (typeof valorSalvo === 'object') ? (valorSalvo.texto || valorSalvo.id || '') : String(valorSalvo);
+  v = v.trim();
+  if(!v) return null;
+
+  // Procedimentos
+  if(chave === 'procedimento'){
+    var p = DATA.procedimentos.find(function(x){ return x.id===v || x.nome===v; });
+    if(p) return { texto: p.nome, verso: p.desc, id: p.id };
+    return { texto: v, verso: null };
+  }
+
+  // Campos livres (amostra, viVd, controle)
+  if(chave === 'amostra' || chave === 'viVd' || chave === 'controle'){
+    return { texto: v, verso: null, livre: true };
+  }
+
+  // Opções de flip-cards
+  var prefixMap = {
+    natureza: 'G_NAT',
+    finalidade: 'G_FIN',
+    abordagem: 'G_ABO',
+    metodo: 'G_MET',
+    temporalidade: 'G_TEM',
+    validade: 'G_VAL'
+  };
+  var prefix = prefixMap[chave];
+  if(!prefix) return { texto: v, verso: null };
+
+  var lista = DATA.opcoes.filter(function(o){ return o.id.indexOf(prefix) === 0; });
+  var found = lista.find(function(o){ return o.texto === v || o.id === v; });
+  if(found) return found;
+  // fallback: se o aluno salvou o objeto inteiro
+  if(typeof valorSalvo === 'object' && valorSalvo.verso) return valorSalvo;
+  return { texto: v, verso: null };
+}
+
+function outrasOpcoesMesmaCategoria(chave, escolhidaTexto){
+  var prefixMap = {
+    natureza: 'G_NAT', finalidade: 'G_FIN', abordagem: 'G_ABO',
+    metodo: 'G_MET', temporalidade: 'G_TEM', validade: 'G_VAL'
+  };
+  var prefix = prefixMap[chave];
+  if(!prefix) return '';
+  var lista = DATA.opcoes.filter(function(o){ return o.id.indexOf(prefix) === 0; });
+  var outras = lista.filter(function(o){ return o.texto !== escolhidaTexto; }).map(function(o){ return o.texto; });
+  if(!outras.length) return '';
+  return '<div class="outras-opts"><strong>Outras opções nesta etapa:</strong> '+outras.join(' · ')+'</div>';
+}
+
+function rowTeoria(titulo, chave, valorSalvo){
+  var opt = acharOpcaoTeoria(chave, valorSalvo);
+  var escolhido = (opt && opt.texto) ? opt.texto : '—';
+  var body = '';
+  if(opt && opt.livre){
+    body = '<div class="escolha-label">Texto do aluno</div><p class="teoria-texto">'+(escolhido.replace(/</g,'&lt;'))+'</p>';
+  } else if(opt && opt.verso){
+    body = '<div class="escolha-label">Escolha do aluno: '+escolhido.replace(/</g,'&lt;')+'</div>'+
+           '<p class="teoria-texto">'+String(opt.verso).replace(/</g,'&lt;')+'</p>'+
+           outrasOpcoesMesmaCategoria(chave, escolhido);
+  } else {
+    body = '<p class="teoria-texto">'+(escolhido.replace(/</g,'&lt;'))+'</p>';
+  }
+  return '<details class="acc-item"><summary>'+titulo+' <span style="font-weight:500;opacity:.7;font-size:12px;">· '+escolhido.replace(/</g,'&lt;')+'</span></summary><div class="acc-body">'+body+'</div></details>';
+}
+
 function abrirRelatorioAluno(idx){
   var s = STATE.sessaoOrientador;
   if(!s || !s.alunos || !s.alunos[idx]) return;
   var a = s.alunos[idx];
   if(document.getElementById('modalRelAluno')) document.getElementById('modalRelAluno').remove();
   var esc = a.escolhas || {};
-  function row(titulo, valor){
-    valor = (valor && String(valor).trim()) ? String(valor) : '—';
-    return '<details class="acc-item"><summary>'+titulo+'</summary><div class="acc-body">'+valor.replace(/</g,'&lt;')+'</div></details>';
-  }
+
   var scoresHtml = '';
   if(a.scores){
     scoresHtml = '<div class="rel-score-big">'+(a.scores.final!=null?a.scores.final:'—')+'<span style="font-size:1rem;">%</span></div>'+
@@ -1395,12 +1507,24 @@ function abrirRelatorioAluno(idx){
   } else {
     scoresHtml = '<p class="muted" style="text-align:center;">Relatório completo ainda não enviado. Fase: '+(a.faseNome||a.fase||'—')+'</p>';
   }
-  var metodo = a.relatorioTexto ? '<div class="card" style="margin:10px 0;"><span class="eyebrow">Método montado</span><p style="font-size:13px;margin:6px 0 0;">'+String(a.relatorioTexto).replace(/</g,'&lt;')+'</p></div>' : '';
+  var metodo = a.relatorioTexto ? '<div class="card" style="margin:10px 0;"><span class="eyebrow">Método montado</span><p style="font-size:13px;margin:6px 0 0;line-height:1.45;">'+String(a.relatorioTexto).replace(/</g,'&lt;')+'</p></div>' : '';
+
+  var accordions =
+    rowTeoria('Natureza', 'natureza', esc.natureza) +
+    rowTeoria('Finalidade', 'finalidade', esc.finalidade) +
+    rowTeoria('Abordagem', 'abordagem', esc.abordagem) +
+    rowTeoria('Método', 'metodo', esc.metodo) +
+    rowTeoria('Procedimento', 'procedimento', esc.procedimento) +
+    rowTeoria('Temporalidade', 'temporalidade', esc.temporalidade) +
+    rowTeoria('Amostra', 'amostra', esc.amostra) +
+    rowTeoria('Variáveis (VI/VD)', 'viVd', esc.viVd) +
+    rowTeoria('Controle', 'controle', esc.controle);
+
   var wrap = document.createElement('div');
   wrap.id = 'modalRelAluno';
   wrap.className = 'modal-rel-backdrop';
   wrap.onclick = function(e){ if(e.target===wrap) wrap.remove(); };
-  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="fecharModalRelAluno()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+row('Natureza', esc.natureza)+row('Finalidade', esc.finalidade)+row('Abordagem', esc.abordagem)+row('Método', esc.metodo)+row('Procedimento', esc.procedimento)+row('Temporalidade', esc.temporalidade)+row('Amostra', esc.amostra)+row('Variáveis', esc.viVd)+row('Controle', esc.controle)+'</div></div>';
+  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="fecharModalRelAluno()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+accordions+'</div></div>';
   document.body.appendChild(wrap);
 }
 
@@ -1440,32 +1564,39 @@ function screenOrientador(){
     </div>`;
   }
 
-  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=8&data=' + encodeURIComponent(s.link);
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=6&data=' + encodeURIComponent(s.link);
+  const nAlunos = (s.alunos && s.alunos.length) ? s.alunos.length : 0;
 
   return `<div class="brand"><div><div class="brand-name">Sessão ativa</div><div class="brand-title">Módulo do Orientador</div></div></div>
   <div class="section orientador-shell">
-  <div class="sessao-layout">
-    <div class="card sessao-box">
-      <span class="eyebrow">Código da sala</span>
-      <div class="sessao-codigo">${s.codigo}</div>
-      ${s.fb ? '<span class="sessao-status">Firebase · ao vivo</span>' : '<span class="sessao-status">Conectando Firebase…</span>'}
-      <div class="sessao-qr"><img src="${qrUrl}" alt="QR Code da sessão ${s.codigo}" width="180" height="180"/></div>
-      <p class="muted" style="font-size:12.5px;margin:0;">Alunos apontam a câmera para o QR ou digitam o código.</p>
-      <p class="sessao-link">${s.link}</p>
-      <div class="btn-row" style="margin-top:12px;">
-        <button class="btn btn-secondary" type="button" onclick="copiarTextoSessao('${s.link.replace(/'/g,"\\'")}')">Copiar link</button>
-        <button class="btn btn-primary" type="button" onclick="criarSessaoLocal()">Novo código</button>
+    <div class="sessao-layout">
+
+      <!-- Lateral: QR + código + ações -->
+      <div class="card sessao-side">
+        <span class="eyebrow">Código da sala</span>
+        <div class="sessao-codigo">${s.codigo}</div>
+        ${s.fb ? '<span class="sessao-status">Firebase · ao vivo</span>' : '<span class="sessao-status">Conectando…</span>'}
+        <div class="sessao-qr-side"><img src="${qrUrl}" alt="QR ${s.codigo}" width="140" height="140"/></div>
+        <p class="muted" style="font-size:11.5px;margin:0 0 4px;">Apontar a câmera ou digitar o código.</p>
+        <div class="sessao-link-sm" title="${s.link}">${s.link}</div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" type="button" onclick="copiarTextoSessao('${s.link.replace(/'/g,"\\'")}')">Copiar link</button>
+          <button class="btn btn-primary" type="button" onclick="criarSessaoLocal()">Novo código</button>
+        </div>
+        <div id="msgCopiaSessao" class="muted" style="min-height:16px;margin-top:6px;font-size:11.5px;"></div>
       </div>
-      <div id="msgCopiaSessao" class="muted" style="min-height:18px;margin-top:6px;font-size:12px;"></div>
+
+      <!-- Centro: turma (protagonista) -->
+      <div class="card turma-panel">
+        <div class="turma-head">
+          <span class="eyebrow" style="margin:0;">Turma ao vivo</span>
+          <span class="turma-count">${nAlunos} aluno${nAlunos===1?'':'s'}</span>
+        </div>
+        <div class="grid-alunos-mock">${htmlGridAlunosOrientador(s.alunos)}</div>
+      </div>
+
     </div>
 
-    <div class="card turma-panel" style="margin-top:0;">
-      <span class="eyebrow">Turma ao vivo</span>
-      <p class="muted" style="font-size:12.5px;margin:0 0 8px;">Alunos aparecem aqui ao entrar com o código da sala.</p>
-      <div class="grid-alunos-mock">${htmlGridAlunosOrientador(s.alunos)}</div>
-    </div>
-
-  </div>
     <button class="btn btn-secondary btn-block" style="margin-top:14px;" onclick="encerrarSessaoLocal()">Encerrar sessão</button>
     <button class="btn btn-ghost btn-block" style="margin-top:4px;" onclick="goto('inicio')">← Voltar ao início</button>
   </div>`;
