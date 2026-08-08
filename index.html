@@ -640,7 +640,16 @@ body{
 .orientador-shell .eyebrow{margin-bottom:4px;}
 
 
-/* Sessão mock do Orientador */
+/* Painel Orientador — sessão + grid responsivo */
+.orientador-shell{max-width:1100px;margin:0 auto;}
+.sessao-layout{
+  display:grid;gap:14px;align-items:start;
+}
+@media(min-width:860px){
+  .sessao-layout{
+    grid-template-columns: minmax(280px,340px) 1fr;
+  }
+}
 .sessao-box{text-align:center;padding:8px 0 4px;}
 .sessao-codigo{
   font-family:var(--mono);font-size:1.75rem;font-weight:700;letter-spacing:.18em;
@@ -650,6 +659,10 @@ body{
   width:180px;height:180px;margin:12px auto;border-radius:12px;
   background:#fff;border:1.5px solid var(--line);
   display:flex;align-items:center;justify-content:center;overflow:hidden;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 6px 0 rgba(15,46,36,.12),
+    0 12px 24px rgba(15,46,36,.12);
 }
 .sessao-qr img{width:100%;height:100%;object-fit:contain;display:block;}
 .sessao-link{
@@ -661,21 +674,82 @@ body{
   font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
   background:rgba(44,99,73,.12);color:var(--green-ok);border:1px solid rgba(44,99,73,.25);
 }
+.turma-panel{min-height:200px;}
 .grid-alunos-mock{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:12px;
 }
+@media(min-width:600px){
+  .grid-alunos-mock{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:900px){
+  .grid-alunos-mock{grid-template-columns:repeat(4,1fr);}
+}
+@media(min-width:1200px){
+  .grid-alunos-mock{grid-template-columns:repeat(5,1fr);}
+}
+/* Cards fixos + 3D + status */
 .aluno-card-mock{
-  background:linear-gradient(180deg,#fffef9 0%,var(--paper) 100%);
-  border:1.5px solid rgba(15,46,36,.14);border-radius:12px;
-  padding:12px 10px;min-height:88px;text-align:center;
-  box-shadow:0 4px 0 rgba(15,46,36,.1);
+  width:100%;
+  height:108px;
+  box-sizing:border-box;
+  background:linear-gradient(180deg, #fffef9 0%, var(--paper) 55%, var(--paper-2) 100%);
+  border:1.5px solid rgba(15,46,36,.16);
+  border-radius:12px;
+  padding:12px 10px 10px;
+  text-align:center;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 5px 0 rgba(15,46,36,.14),
+    0 10px 18px rgba(15,46,36,.12);
 }
-.aluno-card-mock .av{font-size:22px;line-height:1;}
-.aluno-card-mock .nm{font-size:12.5px;font-weight:600;color:var(--green-dark);margin-top:4px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.aluno-card-mock .ph{font-size:11px;color:var(--ink-soft);margin-top:2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.aluno-card-mock.empty{opacity:.55;border-style:dashed;}
+.aluno-card-mock:active{
+  transform:translateY(3px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 2px 0 rgba(15,46,36,.12),
+    0 4px 10px rgba(15,46,36,.1);
+}
+.aluno-card-mock .av{font-size:26px;line-height:1;}
+.aluno-card-mock .nm{
+  font-size:13px;font-weight:700;color:var(--green-dark);margin-top:6px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.aluno-card-mock .ph{
+  font-size:11px;color:var(--ink-soft);margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-family:var(--mono);
+}
+.aluno-card-mock.empty{
+  opacity:.5;border-style:dashed;cursor:default;
+  box-shadow:none;height:108px;
+}
+/* status cores */
+.aluno-card-mock.st-entrou{
+  border-color:rgba(15,46,36,.18);
+  background:linear-gradient(180deg,#f7f5ef 0%,#ebe4d4 100%);
+}
+.aluno-card-mock.st-andamento{
+  border-color:var(--gold);
+  background:linear-gradient(180deg,#fff9ee 0%,#f3e4c4 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 5px 0 rgba(156,121,54,.22),
+    0 10px 18px rgba(15,46,36,.12);
+}
+.aluno-card-mock.st-concluiu{
+  border-color:var(--green-ok);
+  background:linear-gradient(180deg,#f3faf6 0%,#d8ebe0 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 5px 0 rgba(44,99,73,.28),
+    0 10px 18px rgba(15,46,36,.12);
+}
 
 
 .codigo-sala-input{
@@ -689,6 +763,47 @@ body{
   background:#fffef9;font-size:22px;cursor:pointer;line-height:1;
 }
 .emoji-pick button.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(220,174,91,.35);}
+
+
+.modal-rel-backdrop{
+  position:fixed;inset:0;background:rgba(15,46,36,.5);z-index:10000;
+  display:flex;align-items:flex-end;justify-content:center;padding:0;
+}
+@media(min-width:560px){
+  .modal-rel-backdrop{align-items:center;padding:16px;}
+}
+.modal-rel{
+  background:var(--paper);width:100%;max-width:480px;max-height:92vh;
+  border-radius:16px 16px 0 0;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 -8px 40px rgba(15,46,36,.25);
+}
+@media(min-width:560px){
+  .modal-rel{border-radius:16px;max-height:88vh;}
+}
+.modal-rel-head{
+  padding:14px 16px;background:linear-gradient(180deg,var(--green-dark),var(--green-mid));
+  color:var(--paper);display:flex;align-items:center;gap:10px;
+  border-bottom:2px solid var(--gold);
+}
+.modal-rel-head .av{font-size:28px;line-height:1;}
+.modal-rel-head .info{flex:1;min-width:0;}
+.modal-rel-head .nm{font-family:var(--display);font-size:1.15rem;font-weight:700;}
+.modal-rel-head .sub{font-size:11px;opacity:.85;font-family:var(--mono);}
+.modal-rel-head button{
+  background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;
+  border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;
+}
+.modal-rel-body{padding:14px 16px 24px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.acc-item{border:1.5px solid rgba(15,46,36,.14);border-radius:10px;margin-bottom:8px;overflow:hidden;background:#fffef9;}
+.acc-item summary{
+  list-style:none;cursor:pointer;padding:12px 14px;font-weight:600;color:var(--green-dark);
+  font-size:13.5px;display:flex;justify-content:space-between;align-items:center;
+}
+.acc-item summary::-webkit-details-marker{display:none;}
+.acc-item summary::after{content:'▸';font-size:12px;color:var(--gold-dim);}
+.acc-item[open] summary::after{content:'▾';}
+.acc-item .acc-body{padding:0 14px 12px;font-size:13px;color:var(--ink);line-height:1.45;}
+.rel-score-big{text-align:center;font-family:var(--display);font-size:2rem;color:var(--green-dark);margin:8px 0;}
 
 </style>
 </head>
@@ -921,7 +1036,13 @@ function sincronizarFaseAlunoFB(screen){
     progresso = 10;
     status = 'andamento';
   }
-  if(screen === 'parecer') status = 'andamento';
+  if(screen === 'parecer'){
+    status = 'concluiu';
+    faseNome = 'Parecer Final';
+    progresso = 10;
+    // envio automático do relatório
+    setTimeout(function(){ enviarRelatorioAlunoFB(); }, 300);
+  }
   window.LabFB.atualizarAluno(a.codigo, a.alunoId, {
     fase: fase,
     faseNome: faseNome,
@@ -929,6 +1050,37 @@ function sincronizarFaseAlunoFB(screen){
     status: status
   }).catch(function(e){ console.error('sync fase', e); });
 }
+
+function enviarRelatorioAlunoFB(){
+  const a = STATE.alunoSessao;
+  if(!a || !a.codigo || !a.alunoId || !window.LabFB) return;
+  if(typeof calcularRigor !== 'function' || typeof montarDescricaoMetodo !== 'function') return;
+  try{
+    const r = calcularRigor();
+    const descricao = montarDescricaoMetodo();
+    const escolhas = {
+      natureza: STATE.fase1 && STATE.fase1.natureza ? (STATE.fase1.natureza.texto||STATE.fase1.natureza.id||'') : '',
+      finalidade: STATE.fase1 && STATE.fase1.finalidade ? (STATE.fase1.finalidade.texto||'') : '',
+      abordagem: STATE.fase2 && STATE.fase2.abordagem ? (STATE.fase2.abordagem.texto||'') : '',
+      metodo: STATE.fase2 && STATE.fase2.metodo ? (STATE.fase2.metodo.texto||'') : '',
+      procedimento: STATE.fase3 ? (STATE.fase3.procedimento||'') : '',
+      temporalidade: STATE.fase3 && STATE.fase3.temporalidade ? (STATE.fase3.temporalidade.texto||STATE.fase3.temporalidade||'') : '',
+      amostra: STATE.fase3 ? (STATE.fase3.amostra||'') : '',
+      viVd: STATE.fase3 ? (STATE.fase3.viVd||'') : '',
+      controle: STATE.fase3 ? (STATE.fase3.controle||'') : ''
+    };
+    window.LabFB.atualizarAluno(a.codigo, a.alunoId, {
+      status: 'concluiu',
+      fase: 'parecer',
+      faseNome: 'Parecer Final',
+      progresso: 10,
+      scores: { coerencia: r.coerencia, vies: r.vies, generalizacao: r.generalizacao, final: r.final },
+      escolhas: escolhas,
+      relatorioTexto: descricao
+    }).catch(function(e){ console.error('envio relatorio', e); });
+  }catch(e){ console.error(e); }
+}
+
 
 function iniciarNovo(modo){
   STATE.modo=modo||'classico';
@@ -1202,15 +1354,43 @@ function htmlGridAlunosOrientador(alunos){
     }
     return empty;
   }
-  return alunos.map(function(a){
+  return alunos.map(function(a, idx){
     var st = a.status||'entrou';
-    var cor = st==='concluiu' ? 'border-color:var(--green-ok);' : (st==='andamento' ? 'border-color:var(--gold);' : '');
-    var nome = String(a.nome||'Aluno').replace(/</g,'');
+    if(st!=='concluiu' && st!=='andamento') st = 'entrou';
+    var nome = String(a.nome||'Aluno').replace(/</g,'').replace(/"/g,'');
     var fase = String(a.faseNome||a.fase||'—').replace(/</g,'');
     var av = a.avatar||'👤';
-    return '<div class="aluno-card-mock" style="'+cor+'"><div class="av">'+av+'</div><div class="nm">'+nome+'</div><div class="ph">'+fase+'</div></div>';
+    var score = (a.scores && a.scores.final != null) ? (' · '+a.scores.final+'%') : '';
+    return '<div class="aluno-card-mock st-'+st+'" onclick="abrirRelatorioAluno('+idx+')"><div class="av">'+av+'</div><div class="nm">'+nome+'</div><div class="ph">'+fase+score+'</div></div>';
   }).join('');
 }
+
+function abrirRelatorioAluno(idx){
+  var s = STATE.sessaoOrientador;
+  if(!s || !s.alunos || !s.alunos[idx]) return;
+  var a = s.alunos[idx];
+  if(document.getElementById('modalRelAluno')) document.getElementById('modalRelAluno').remove();
+  var esc = a.escolhas || {};
+  function row(titulo, valor){
+    valor = (valor && String(valor).trim()) ? String(valor) : '—';
+    return '<details class="acc-item"><summary>'+titulo+'</summary><div class="acc-body">'+valor.replace(/</g,'&lt;')+'</div></details>';
+  }
+  var scoresHtml = '';
+  if(a.scores){
+    scoresHtml = '<div class="rel-score-big">'+(a.scores.final!=null?a.scores.final:'—')+'<span style="font-size:1rem;">%</span></div>'+
+      '<p class="muted" style="text-align:center;font-size:12px;margin:0 0 12px;">Coerência '+ (a.scores.coerencia||'—')+' · Viés '+(a.scores.vies||'—')+' · Geral '+(a.scores.generalizacao||'—')+'</p>';
+  } else {
+    scoresHtml = '<p class="muted" style="text-align:center;">Relatório completo ainda não enviado. Fase: '+(a.faseNome||a.fase||'—')+'</p>';
+  }
+  var metodo = a.relatorioTexto ? '<div class="card" style="margin:10px 0;"><span class="eyebrow">Método montado</span><p style="font-size:13px;margin:6px 0 0;">'+String(a.relatorioTexto).replace(/</g,'&lt;')+'</p></div>' : '';
+  var wrap = document.createElement('div');
+  wrap.id = 'modalRelAluno';
+  wrap.className = 'modal-rel-backdrop';
+  wrap.onclick = function(e){ if(e.target===wrap) wrap.remove(); };
+  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="document.getElementById('modalRelAluno').remove()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+row('Natureza', esc.natureza)+row('Finalidade', esc.finalidade)+row('Abordagem', esc.abordagem)+row('Método', esc.metodo)+row('Procedimento', esc.procedimento)+row('Temporalidade', esc.temporalidade)+row('Amostra', esc.amostra)+row('Variáveis', esc.viVd)+row('Controle', esc.controle)+'</div></div>';
+  document.body.appendChild(wrap);
+}
+
 
 function screenOrientador(){
   restaurarSessaoLocal();
@@ -1251,6 +1431,7 @@ function screenOrientador(){
 
   return `<div class="brand"><div><div class="brand-name">Sessão ativa</div><div class="brand-title">Módulo do Orientador</div></div></div>
   <div class="section orientador-shell">
+  <div class="sessao-layout">
     <div class="card sessao-box">
       <span class="eyebrow">Código da sala</span>
       <div class="sessao-codigo">${s.codigo}</div>
@@ -1265,12 +1446,13 @@ function screenOrientador(){
       <div id="msgCopiaSessao" class="muted" style="min-height:18px;margin-top:6px;font-size:12px;"></div>
     </div>
 
-    <div class="card" style="margin-top:12px;">
+    <div class="card turma-panel" style="margin-top:0;">
       <span class="eyebrow">Turma ao vivo</span>
       <p class="muted" style="font-size:12.5px;margin:0 0 8px;">Alunos aparecem aqui ao entrar com o código da sala.</p>
       <div class="grid-alunos-mock">${htmlGridAlunosOrientador(s.alunos)}</div>
     </div>
 
+  </div>
     <button class="btn btn-secondary btn-block" style="margin-top:14px;" onclick="encerrarSessaoLocal()">Encerrar sessão</button>
     <button class="btn btn-ghost btn-block" style="margin-top:4px;" onclick="goto('inicio')">← Voltar ao início</button>
   </div>`;
