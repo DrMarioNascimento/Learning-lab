@@ -1365,6 +1365,7 @@ function htmlGridAlunosOrientador(alunos){
   }).join('');
 }
 
+function fecharModalRelAluno(){ var el=document.getElementById("modalRelAluno"); if(el) el.remove(); }
 function abrirRelatorioAluno(idx){
   var s = STATE.sessaoOrientador;
   if(!s || !s.alunos || !s.alunos[idx]) return;
@@ -1387,7 +1388,7 @@ function abrirRelatorioAluno(idx){
   wrap.id = 'modalRelAluno';
   wrap.className = 'modal-rel-backdrop';
   wrap.onclick = function(e){ if(e.target===wrap) wrap.remove(); };
-  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="document.getElementById('modalRelAluno').remove()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+row('Natureza', esc.natureza)+row('Finalidade', esc.finalidade)+row('Abordagem', esc.abordagem)+row('Método', esc.metodo)+row('Procedimento', esc.procedimento)+row('Temporalidade', esc.temporalidade)+row('Amostra', esc.amostra)+row('Variáveis', esc.viVd)+row('Controle', esc.controle)+'</div></div>';
+  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="fecharModalRelAluno()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+row('Natureza', esc.natureza)+row('Finalidade', esc.finalidade)+row('Abordagem', esc.abordagem)+row('Método', esc.metodo)+row('Procedimento', esc.procedimento)+row('Temporalidade', esc.temporalidade)+row('Amostra', esc.amostra)+row('Variáveis', esc.viVd)+row('Controle', esc.controle)+'</div></div>';
   document.body.appendChild(wrap);
 }
 
