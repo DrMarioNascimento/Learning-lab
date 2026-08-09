@@ -862,9 +862,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Você escolheu a natureza exploratória. Ela é adequada quando o problema ainda não está claramente delimitado.",
-      "ajuda": "Lembre-se: a exploratória é o ponto de partida quando ainda sabemos pouco sobre o fenômeno. Se sua pergunta já busca relações de causa e efeito, talvez precise de outra natureza.",
-      "armadilha": false
+      "feedback": "Você escolheu a natureza exploratória. Ela é adequada quando o problema ainda não está claramente delimitado."
     },
     {
       "id": "G_NAT_02",
@@ -876,9 +874,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Natureza descritiva escolhida. Boa opção quando o foco é caracterizar, mapear ou traçar o perfil de um fenômeno.",
-      "ajuda": "A descritiva responde 'como é' ou 'quais são as características'. Se sua pergunta busca 'por que acontece' ou 'qual o efeito de X sobre Y', considere a explicativa.",
-      "armadilha": false
+      "feedback": "Natureza descritiva escolhida. Boa opção quando o foco é caracterizar, mapear ou traçar o perfil de um fenômeno."
     },
     {
       "id": "G_NAT_03",
@@ -890,9 +886,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Natureza explicativa selecionada. Adequada quando o objetivo é compreender relações de causa e efeito.",
-      "ajuda": "A explicativa exige maior rigor de controle de variáveis. Verifique se seu delineamento (Fase 3) consegue sustentar uma pretensão causal.",
-      "armadilha": false
+      "feedback": "Natureza explicativa selecionada. Adequada quando o objetivo é compreender relações de causa e efeito."
     },
     {
       "id": "G_FIN_01",
@@ -904,9 +898,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Finalidade básica escolhida. O foco está na geração de conhecimento teórico.",
-      "ajuda": "Pesquisa básica não significa 'menos importante'. Ela fundamenta as pesquisas aplicadas futuras.",
-      "armadilha": false
+      "feedback": "Finalidade básica escolhida. O foco está na geração de conhecimento teórico."
     },
     {
       "id": "G_FIN_02",
@@ -918,9 +910,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Finalidade aplicada selecionada. O projeto busca resolver um problema concreto da Educação Física.",
-      "ajuda": "Na pesquisa aplicada, a utilidade prática dos resultados deve estar clara desde a formulação do problema.",
-      "armadilha": false
+      "feedback": "Finalidade aplicada selecionada. O projeto busca resolver um problema concreto da Educação Física."
     },
     {
       "id": "G_ABO_01",
@@ -932,9 +922,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Abordagem quantitativa escolhida. Adequada para medir magnitude, comparar grupos e testar hipóteses.",
-      "ajuda": "Se sua pergunta busca compreender significados, experiências ou processos subjetivos, a abordagem qualitativa pode ser mais coerente.",
-      "armadilha": false
+      "feedback": "Abordagem quantitativa escolhida. Adequada para medir magnitude, comparar grupos e testar hipóteses."
     },
     {
       "id": "G_ABO_02",
@@ -946,9 +934,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Abordagem qualitativa selecionada. Foco na compreensão profunda do fenômeno.",
-      "ajuda": "Na qualitativa, a generalização estatística não é o objetivo. O valor está na profundidade e na interpretação do contexto.",
-      "armadilha": false
+      "feedback": "Abordagem qualitativa selecionada. Foco na compreensão profunda do fenômeno."
     },
     {
       "id": "G_ABO_03",
@@ -960,9 +946,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Abordagem mista escolhida. Exige clareza sobre como as duas vertentes se integram.",
-      "ajuda": "Na abordagem mista, é fundamental justificar por que as duas abordagens são necessárias e como os dados serão integrados.",
-      "armadilha": false
+      "feedback": "Abordagem mista escolhida. Exige clareza sobre como as duas vertentes se integram."
     },
     {
       "id": "G_MET_01",
@@ -974,9 +958,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Método dedutivo selecionado. Você partirá de uma teoria ou framework para testar hipóteses específicas.",
-      "ajuda": "O dedutivo exige que a teoria de partida esteja bem fundamentada. Verifique se há base teórica suficiente.",
-      "armadilha": false
+      "feedback": "Método dedutivo selecionado. Você partirá de uma teoria ou framework para testar hipóteses específicas."
     },
     {
       "id": "G_MET_02",
@@ -988,9 +970,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Método indutivo escolhido. Você partirá dos dados para construir compreensões mais amplas.",
-      "ajuda": "No indutivo, evite generalizações apressadas. A qualidade da indução depende da riqueza e diversidade dos dados.",
-      "armadilha": false
+      "feedback": "Método indutivo escolhido. Você partirá dos dados para construir compreensões mais amplas."
     },
     {
       "id": "G_MET_03",
@@ -1002,9 +982,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Método dialético selecionado. Adequado para análises que consideram contradições e transformação social.",
-      "ajuda": "O dialético exige olhar histórico e relacional. Não se limita a descrever o fenômeno isoladamente.",
-      "armadilha": false
+      "feedback": "Método dialético selecionado. Adequado para análises que consideram contradições e transformação social."
     },
     {
       "id": "G_MET_04",
@@ -1016,9 +994,7 @@
       "coerencia": 0,
       "vies": 0,
       "generalizacao": 0,
-      "feedback": "Método fenomenológico escolhido. Foco na experiência vivida e em seus significados.",
-      "ajuda": "Na fenomenologia, a qualidade da descrição e a redução fenomenológica são centrais. O número de participantes costuma ser reduzido e intencional.",
-      "armadilha": false
+      "feedback": "Método fenomenológico escolhido. Foco na experiência vivida e em seus significados."
     },
     {
       "id": "G_TEM_01",
@@ -1030,9 +1006,7 @@
       "coerencia": 0,
       "vies": -5,
       "generalizacao": -5,
-      "feedback": "Temporalidade transversal escolhida. Adequada para diagnósticos e estudos de prevalência.",
-      "ajuda": "Atenção: estudos transversais têm dificuldade de estabelecer relação de causa e efeito, pois não garantem que a exposição antecedeu o desfecho.",
-      "armadilha": false
+      "feedback": "Temporalidade transversal escolhida. Adequada para diagnósticos e estudos de prevalência."
     },
     {
       "id": "G_TEM_02",
@@ -1044,9 +1018,7 @@
       "coerencia": 0,
       "vies": 5,
       "generalizacao": 0,
-      "feedback": "Temporalidade longitudinal selecionada. Fortalece a possibilidade de análises temporais e de mudança.",
-      "ajuda": "Estudos longitudinais exigem maior tempo, recursos e estratégias para lidar com perdas de seguimento (attrition).",
-      "armadilha": false
+      "feedback": "Temporalidade longitudinal selecionada. Fortalece a possibilidade de análises temporais e de mudança."
     },
     {
       "id": "G_TEM_03",
@@ -1058,9 +1030,7 @@
       "coerencia": 0,
       "vies": 5,
       "generalizacao": 0,
-      "feedback": "Desenho de coorte escolhido. Adequado para investigar incidência e fatores de risco.",
-      "ajuda": "Coortes bem conduzidas têm bom potencial de evidência, mas são mais complexas e custosas.",
-      "armadilha": false
+      "feedback": "Desenho de coorte escolhido. Adequado para investigar incidência e fatores de risco."
     },
     {
       "id": "G_VAL_01",
@@ -1072,9 +1042,7 @@
       "coerencia": 5,
       "vies": 10,
       "generalizacao": -3,
-      "feedback": "Você priorizou a validade interna. Isso fortalece a confiança de que os resultados realmente se devem ao que foi investigado.",
-      "ajuda": "Priorizar validade interna é fundamental em estudos que pretendem estabelecer relações causais. Porém, excesso de controle pode reduzir a validade externa.",
-      "armadilha": false
+      "feedback": "Você priorizou a validade interna. Isso fortalece a confiança de que os resultados realmente se devem ao que foi investigado."
     },
     {
       "id": "G_VAL_02",
@@ -1086,9 +1054,7 @@
       "coerencia": -3,
       "vies": -5,
       "generalizacao": 10,
-      "feedback": "Você priorizou a validade externa. Isso amplia a possibilidade de aplicar os resultados em outros contextos.",
-      "ajuda": "Cuidado: buscar alta validade externa sem controle de vieses pode gerar resultados generalizáveis, porém pouco confiáveis.",
-      "armadilha": false
+      "feedback": "Você priorizou a validade externa. Isso amplia a possibilidade de aplicar os resultados em outros contextos."
     },
     {
       "id": "G_VAL_03",
@@ -1100,9 +1066,7 @@
       "coerencia": 5,
       "vies": 5,
       "generalizacao": 5,
-      "feedback": "Escolha equilibrada. Demonstra consciência de que validade interna e externa precisam ser ponderadas conforme o objetivo da pesquisa.",
-      "ajuda": "O equilíbrio não significa 'meio-termo fraco'. Significa justificar conscientemente as decisões de controle e de amostragem.",
-      "armadilha": false
+      "feedback": "Escolha equilibrada. Demonstra consciência de que validade interna e externa precisam ser ponderadas conforme o objetivo da pesquisa."
     }
   ],
   "procedimentos": [
@@ -1194,9 +1158,9 @@
     "parecer_aprovado": "O delineamento apresentado demonstra coerência epistemológica, controle adequado de vieses e escopo compatível com as conclusões pretendidas. Aprovado para publicação/defesa sem ressalvas.",
     "parecer_reformulacao": "O projeto possui potencial, porém apresenta fragilidades metodológicas que precisam ser corrigidas antes da submissão/defesa.",
     "parecer_recusado": "O delineamento apresenta incoerências metodológicas graves que comprometem a validade dos resultados. Recomenda-se refazer as fases indicadas.",
-    "rodape_exportacao": "Laboratório do Pesquisador – Delineamentos\nSimulador interativo | Prof. Mário César Nascimento, PhD © 2026",
-    "titulo_parecer": "Parecer Técnico de Avaliação Metodológica – Laboratório do Pesquisador",
-    "limite_erros_ajuda": "2",
-    "limite_rigor_ajuda": "55"
+    "rodape_exportacao": "Laboratório do Pesquisador - Delineamentos",
+    "titulo_parecer": "Relatório de Delineamento Metodológico",
+    "rodape_linha2": "Simuladores interativos utilizados nas disciplinas de Ética e Pesquisa",
+    "rodape_linha3": "Prof. Dr. Mário César Nascimento ©"
   }
 }
