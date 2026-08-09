@@ -41,8 +41,14 @@ body{
   min-height:100vh;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
+  text-align:justify;
+  text-align-last:left;
 }
 #app{max-width:540px;margin:0 auto;min-height:100vh;padding-bottom:32px;position:relative;}
+#app.app-wide{max-width:540px;}
+@media(min-width:900px){
+  #app.app-wide{max-width:100%;}
+}
 
 /* Brand = masthead Claude */
 .brand{
@@ -544,7 +550,17 @@ body{
 .decisions-recap .drow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--paper-3);}
 .decisions-recap .drow b{color:var(--green-dark);font-weight:600;}
 
-.export-footer{margin-top:14px;padding-top:10px;border-top:1px dashed var(--paper-3);font-family:var(--mono);font-size:9.5px;color:var(--ink-soft);white-space:pre-line;text-align:center;line-height:1.4;}
+.export-footer{margin-top:16px;padding-top:12px;border-top:1px dashed var(--paper-3);text-align:center;}
+.export-footer .ef-line{font-family:var(--mono);white-space:nowrap;line-height:1.55;}
+.export-footer .ef-l1{font-size:9.5px;letter-spacing:.04em;color:var(--ink-soft);}
+.export-footer .ef-l2{font-size:8.7px;letter-spacing:.02em;color:var(--ink-soft);}
+.export-footer .ef-l3{font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--green-dark);margin-top:4px;}
+
+/* Área exportada (Parecer Final): margens reduzidas para o conteúdo
+   ter mais largura útil e quebrar menos linha na imagem/PDF gerado */
+#printArea.section{padding:10px 10px 16px;}
+#exportArea .decisions-recap.card{padding:10px 12px;}
+#exportArea .metodo-montado{padding:13px;}
 
 /* Modal Acervo */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,25,20,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center;}
@@ -640,78 +656,98 @@ body{
 .orientador-shell .eyebrow{margin-bottom:4px;}
 
 
-/* Painel Orientador — QR lateral + turma no centro */
-.orientador-shell{max-width:1100px;margin:0 auto;width:100%;}
+/* Painel Orientador — modo "telão": topo compacto (código/QR viram um
+   botão que abre modal) + grade de alunos ocupando todo o espaço
+   restante, para crescer conforme a tela (celular → tablet → TV). */
+.orientador-shell{max-width:100%;margin:0 auto;width:100%;}
 
-.sessao-layout{
-  display:flex;flex-direction:column;gap:14px;align-items:stretch;
+.orientador-live{
+  display:flex;flex-direction:column;gap:12px;
+  min-height:calc(100vh - 92px);
+  padding-bottom:6px;
 }
-@media(min-width:820px){
-  .sessao-layout{
-    display:grid;
-    grid-template-columns: 200px minmax(0,1fr);
-    gap:16px;
-    align-items:start;
-  }
+.orientador-topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.otb-info{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.otb-count{font-family:var(--mono);font-size:13px;color:var(--green-mid);font-weight:700;}
+.otb-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-sm{padding:9px 13px;font-size:12px;width:auto;}
+
+/* Grade de alunos — cresce para ocupar o espaço disponível */
+.turma-grid-wrap{
+  flex:1;min-height:320px;
+  background:linear-gradient(180deg, #fffef9 0%, var(--paper) 100%);
+  border:1.5px solid rgba(15,46,36,.14);border-radius:16px;
+  padding:12px;overflow:hidden;display:flex;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 4px 0 rgba(15,46,36,.1),
+    0 10px 22px rgba(15,46,36,.12);
+}
+.grid-alunos-mock{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(118px, 1fr));
+  gap:10px;
+  width:100%;align-content:start;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:2px 4px 6px 2px;
 }
 
-/* Coluna lateral: QR + código + ações */
-.sessao-side{
-  text-align:center;padding:14px 12px;
+/* Tablet / telão pequeno: cards maiores, mais legíveis à distância */
+@media(min-width:900px){
+  .orientador-live{padding:4px 18px 10px;gap:16px;}
+  .turma-grid-wrap{padding:18px;border-radius:20px;}
+  .grid-alunos-mock{grid-template-columns:repeat(auto-fill, minmax(150px,1fr));gap:16px;}
+  .aluno-card-mock{min-height:150px;border-radius:14px;}
+  .aluno-card-mock .av{font-size:32px;}
+  .aluno-card-mock .nm{font-size:14.5px;}
+  .aluno-card-mock .ph{font-size:12px;}
+  .aluno-card-mock .sc{font-size:1.7rem;}
+  .otb-count{font-size:15px;}
 }
-.sessao-codigo{
+/* TV / telão grande: prioridade total à legibilidade a distância */
+@media(min-width:1400px){
+  .orientador-live{padding:6px 32px 16px;}
+  .turma-grid-wrap{padding:24px;}
+  .grid-alunos-mock{grid-template-columns:repeat(auto-fill, minmax(196px,1fr));gap:20px;}
+  .aluno-card-mock{min-height:196px;border-radius:18px;}
+  .aluno-card-mock .av{font-size:48px;}
+  .aluno-card-mock .nm{font-size:19px;}
+  .aluno-card-mock .ph{font-size:14.5px;}
+  .aluno-card-mock .sc{font-size:2.4rem;}
+  .otb-count{font-size:19px;}
+  .brand-title{font-size:2rem;}
+  .brand-name{font-size:13px;}
+}
+
+/* Modal Código/QR (aberto por botão, some do fluxo principal) */
+.modal-senha-backdrop.hidden{display:none;}
+.qr-modal-inner{text-align:center;}
+.qr-modal-inner .sessao-codigo{
   font-family:var(--mono);font-size:1.35rem;font-weight:700;letter-spacing:.12em;
   color:var(--green-dark);line-height:1.2;margin:6px 0 4px;
 }
-.sessao-status{
+.qr-modal-inner .sessao-status{
   display:inline-block;margin:4px 0 10px;padding:3px 8px;border-radius:999px;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
   background:rgba(44,99,73,.12);color:var(--green-ok);border:1px solid rgba(44,99,73,.25);
 }
-.sessao-qr-side{
-  width:140px;height:140px;margin:0 auto 10px;border-radius:12px;
+.qr-modal-inner .sessao-qr-side{
+  width:150px;height:150px;margin:4px auto 10px;border-radius:12px;
   background:#fff;border:1.5px solid var(--line);overflow:hidden;
   box-shadow:
     0 1px 0 rgba(255,255,255,.9) inset,
     0 5px 0 rgba(15,46,36,.12),
     0 10px 18px rgba(15,46,36,.1);
 }
-.sessao-qr-side img{width:100%;height:100%;object-fit:contain;display:block;}
-.sessao-link-sm{
+.qr-modal-inner .sessao-qr-side img{width:100%;height:100%;object-fit:contain;display:block;}
+.qr-modal-inner .sessao-link-sm{
   font-size:10px;color:var(--ink-soft);word-break:break-all;
-  margin:6px 0 10px;font-family:var(--mono);line-height:1.35;
+  margin:6px 0 10px;font-family:var(--mono);line-height:1.35;text-align:center;
 }
-.sessao-side .btn{width:100%;margin-top:6px;padding:9px 10px;font-size:13px;}
-.sessao-side .btn-row{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
-
-/* Turma = centro (área principal) */
-.turma-panel{
-  min-width:0;width:100%;
-  display:flex;flex-direction:column;
-  min-height:280px;
-}
-.turma-panel .turma-head{
-  display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px;
-}
-.turma-panel .turma-count{
-  font-family:var(--mono);font-size:12px;color:var(--ink-soft);
-}
-.grid-alunos-mock{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(118px, 1fr));
-  gap:10px;
-  width:100%;
-  max-height:min(62vh, 560px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  padding:2px 4px 10px 2px;
-  margin:0 -2px;
-}
-@media(min-width:820px){
-  .grid-alunos-mock{
-    max-height:min(68vh, 640px);
-  }
-}
+.qr-modal-inner .btn-row{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.qr-modal-inner .btn-row .btn{width:100%;}
 /* Cards 3D + status + score em destaque */
 .aluno-card-mock{
   width:100%;
@@ -834,66 +870,106 @@ body{
   border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;
 }
 .modal-rel-body{padding:14px 16px 24px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.acc-item{border:1.5px solid rgba(15,46,36,.14);border-radius:10px;margin-bottom:8px;overflow:hidden;background:#fffef9;}
+
+/* Cabeçalho de pontuação — cartão próprio, mais claro que um número solto */
+.rel-score-card{
+  display:flex;align-items:center;gap:14px;
+  background:linear-gradient(180deg, #fffef9 0%, var(--paper) 55%, var(--paper-2) 100%);
+  border:1.5px solid rgba(15,46,36,.14);border-radius:14px;
+  padding:14px 16px;margin:0 0 14px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 4px 0 rgba(15,46,36,.1),
+    0 10px 20px rgba(15,46,36,.1);
+}
+.rel-score-card .rsc-num{
+  flex:none;width:64px;height:64px;border-radius:50%;
+  border:2.5px solid var(--green-ok);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:700;font-size:1.35rem;color:var(--green-dark);
+  background:radial-gradient(circle at 50% 40%, #fff9ec, var(--paper) 75%);
+}
+.rel-score-card .rsc-num span{font-size:.55em;opacity:.7;}
+.rel-score-card .rsc-detail{font-size:12px;color:var(--ink-soft);line-height:1.5;}
+.rel-score-card .rsc-detail b{color:var(--green-dark);font-weight:700;}
+
+/* Etapas (acordeão) — cabeçalho mais claro, numerado */
+.acc-item{
+  border:1.5px solid rgba(15,46,36,.14);border-radius:12px;margin-bottom:10px;
+  overflow:hidden;background:#fffef9;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 2px 6px rgba(15,46,36,.05);
+}
 .acc-item summary{
-  list-style:none;cursor:pointer;padding:12px 14px;font-weight:600;color:var(--green-dark);
-  font-size:13.5px;display:flex;justify-content:space-between;align-items:center;
+  list-style:none;cursor:pointer;padding:13px 14px;font-weight:700;color:var(--green-dark);
+  font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;
 }
 .acc-item summary::-webkit-details-marker{display:none;}
-.acc-item summary::after{content:'▸';font-size:12px;color:var(--gold-dim);}
-.acc-item[open] summary::after{content:'▾';}
-.acc-item .acc-body{padding:0 14px 12px;font-size:13px;color:var(--ink);line-height:1.45;}
-.rel-score-big{text-align:center;font-family:var(--display);font-size:2rem;color:var(--green-dark);margin:8px 0;}
-
+.acc-item summary .sum-titulo{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.acc-item summary .sum-escolha{font-weight:500;opacity:.75;font-size:11.5px;color:var(--ink-soft);}
+.acc-item summary::after{
+  content:'▸';font-size:12px;color:var(--gold-dim);flex:none;
+  transition:transform .18s ease;
+}
+.acc-item[open] summary::after{transform:rotate(90deg);}
+.acc-item[open]{border-color:rgba(15,46,36,.22);}
+.acc-item .acc-body{padding:2px 14px 14px;font-size:13px;color:var(--ink);line-height:1.45;border-top:1px solid rgba(15,46,36,.08);}
 
 .turma-vazia{
   grid-column:1/-1;
   text-align:center;padding:28px 16px;color:var(--ink-soft);font-size:14px;
   border:1.5px dashed rgba(15,46,36,.2);border-radius:12px;background:rgba(255,255,255,.4);
 }
-/* Accordion: subcards de todas as opções da etapa */
-.acc-body .opt-stack{display:flex;flex-direction:column;gap:8px;margin-top:2px;}
+
+/* Subcards de todas as opções da etapa — a escolhida ganha destaque real,
+   as demais ficam discretas para não competir por atenção */
+.acc-body .opt-stack{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
 .acc-body .opt-sub{
-  border:1.5px solid rgba(15,46,36,.12);
+  border:1px solid rgba(15,46,36,.08);
   border-radius:10px;
-  padding:10px 12px;
-  background:#fff;
-  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 2px 0 rgba(15,46,36,.06);
+  padding:8px 10px;
+  background:rgba(255,255,255,.55);
+  opacity:.68;
 }
 .acc-body .opt-sub.escolhida{
-  border-color:var(--green-ok);
+  border:1.5px solid var(--green-ok);
+  border-left-width:4px;
+  padding:11px 12px;
   background:linear-gradient(180deg,#f3faf6 0%,#e4f2ea 100%);
+  opacity:1;
   box-shadow:
     0 1px 0 rgba(255,255,255,.95) inset,
     0 3px 0 rgba(44,99,73,.2),
-    0 6px 12px rgba(15,46,36,.08);
+    0 8px 16px rgba(15,46,36,.1);
 }
 .acc-body .opt-sub .opt-head{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   margin-bottom:4px;
 }
 .acc-body .opt-sub .opt-titulo{
-  font-weight:700;font-size:13px;color:var(--green-dark);
+  font-weight:600;font-size:12.5px;color:var(--ink-soft);
 }
-.acc-body .opt-sub.escolhida .opt-titulo{color:var(--green-ok);}
+.acc-body .opt-sub.escolhida .opt-titulo{
+  font-weight:700;font-size:13.5px;color:var(--green-ok);
+}
 .acc-body .opt-sub .opt-badge{
-  flex-shrink:0;
+  flex-shrink:0;display:inline-flex;align-items:center;gap:3px;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;
-  padding:2px 7px;border-radius:999px;
-  background:rgba(44,99,73,.15);color:var(--green-ok);border:1px solid rgba(44,99,73,.3);
+  padding:3px 8px;border-radius:999px;
+  background:var(--green-ok);color:#fff;border:1px solid var(--green-ok);
 }
+.acc-body .opt-sub .opt-badge::before{content:'✓';font-weight:700;}
 .acc-body .opt-sub .opt-extra{
   font-size:11px;color:var(--ink-soft);margin-bottom:4px;
 }
 .acc-body .opt-sub .opt-verso{
-  font-size:12.5px;line-height:1.48;color:var(--ink);margin:0;
+  font-size:12px;line-height:1.48;color:var(--ink-soft);margin:0;
 }
-.acc-body .opt-sub:not(.escolhida) .opt-verso{
-  color:var(--ink-soft);
+.acc-body .opt-sub.escolhida .opt-verso{
+  font-size:12.5px;color:var(--ink);
 }
 .acc-body .texto-livre{
   font-size:13px;line-height:1.5;color:var(--ink);
-  padding:8px 10px;background:#fff;border-radius:8px;
+  padding:10px 12px;background:#fff;border-radius:8px;
   border:1.5px solid rgba(15,46,36,.1);
   white-space:pre-wrap;
 }
@@ -1040,14 +1116,22 @@ const DATA = {
     {id:"a1", texto:"Formular a hipótese depois de já conhecer os resultados (HARKing) deixa o artigo mais coerente e por isso é uma boa prática.", correta:false, explicacao:"HARKing (Hypothesizing After Results are Known) é considerado um viés de má prática: apresenta como confirmatório algo que foi, na verdade, exploratório, distorcendo a leitura do rigor do estudo."},
     {id:"a2", texto:"Grupo controle e randomização ajudam a reduzir vieses de seleção em estudos experimentais.", correta:true, explicacao:"Correto. Randomização e grupo controle são os principais mecanismos para equilibrar características entre grupos e isolar o efeito da variável independente."},
     {id:"a3", texto:"Excluir da análise, sem critério pré-definido, os participantes cujos dados \"atrapalham\" o resultado esperado não compromete a validade do estudo.", correta:false, explicacao:"Excluir casos post-hoc sem critério declarado é uma forma de viés de seleção/relato (data dredging) e compromete diretamente o controle de viés e a credibilidade dos achados."},
-    {id:"a4", texto:"Usar um instrumento de coleta já validado na literatura aumenta a confiabilidade da mensuração.", correta:true, explicacao:"Correto. Instrumentos validados reduzem erros de mensuração e permitem comparação com outros estudos que usaram o mesmo instrumento."}
+    {id:"a4", texto:"Usar um instrumento de coleta já validado na literatura aumenta a confiabilidade da mensuração.", correta:true, explicacao:"Correto. Instrumentos validados reduzem erros de mensuração e permitem comparação com outros estudos que usaram o mesmo instrumento."},
+    {id:"a5", texto:"Uma amostra grande garante, por si só, que os resultados sejam generalizáveis e livres de viés.", correta:false, explicacao:"Amostra grande reduz o erro amostral, mas não corrige viés de seleção: uma amostra grande e enviesada continua enviesada, apenas com mais precisão em torno do erro."},
+    {id:"a6", texto:"Cegar (blinding) o avaliador em relação ao grupo do participante ajuda a reduzir o viés de expectativa na coleta de dados.", correta:true, explicacao:"Correto. Quando quem avalia o desfecho não sabe a qual grupo o participante pertence, reduz-se a influência das expectativas do avaliador sobre o resultado."},
+    {id:"a7", texto:"Encontrar correlação entre duas variáveis já é suficiente para afirmar que uma causa a outra.", correta:false, explicacao:"Correlação não implica causalidade. Para inferir causa é preciso desenho experimental, controle de confundidores, temporalidade adequada e plausibilidade teórica."},
+    {id:"a8", texto:"Registrar previamente (pré-registro) as hipóteses e a análise planejada aumenta a transparência e reduz o risco de p-hacking.", correta:true, explicacao:"Correto. O pré-registro impede alterar hipóteses ou análises depois de ver os dados, protegendo contra achados exploratórios apresentados como se fossem confirmatórios."},
+    {id:"a9", texto:"Testar várias análises estatísticas diferentes até achar uma significativa (p<0,05) e reportar apenas essa é uma prática estatística aceitável.", correta:false, explicacao:"Isso é p-hacking: aumenta artificialmente a chance de um falso positivo e compromete seriamente a validade dos achados relatados."},
+    {id:"a10", texto:"Declarar conflitos de interesse e fontes de financiamento faz parte do rigor ético e metodológico de uma pesquisa.", correta:true, explicacao:"Correto. A transparência sobre conflitos de interesse permite ao leitor avaliar possíveis influências nos resultados e nas conclusões apresentadas."}
   ],
   config: {
     reflexao_pergunta: "O que você mudaria no seu delineamento se fosse recomeçar? Por quê?",
     parecer_aprovado: "O delineamento apresentado demonstra coerência epistemológica, controle adequado de vieses e escopo compatível com as conclusões pretendidas. Aprovado para publicação/defesa sem ressalvas.",
     parecer_reformulacao: "O projeto possui potencial, porém apresenta fragilidades metodológicas que precisam ser corrigidas antes da submissão/defesa.",
     parecer_recusado: "O delineamento apresenta incoerências metodológicas graves que comprometem a validade dos resultados. Recomenda-se refazer as fases indicadas.",
-    rodape_exportacao: "Laboratório do Pesquisador – Delineamentos\nSimuladores interativos utilizados nas disciplinas de Ética e Pesquisa do Prof. Dr. Mário César Nascimento ©",
+    rodape_exportacao: "Laboratório do Pesquisador - Delineamentos",
+    rodape_linha2: "Simuladores interativos utilizados nas disciplinas de Ética e Pesquisa",
+    rodape_linha3: "Prof. Dr. Mário César Nascimento ©",
     titulo_parecer: "Parecer Técnico de Avaliação Metodológica – Laboratório do Pesquisador"
   }
 };
@@ -1061,10 +1145,11 @@ const STATE = {
   fase1: { natureza: null, finalidade: null },
   fase2: { abordagem: null, metodo: null },
   fase3: { procedimento: null, temporalidade: null, viVd: '', amostra: '', controle: '' },
-  fase4: { validade: null, armadilhas: {} },
+  fase4: { validade: null, armadilhas: {}, armadilhasSelecionadas: null },
   flipOpen: {},
   reflexao: '',
-  erroConsecutivo: 0
+  erroConsecutivo: 0,
+  qrSessaoAberto: false
 };
 
 /* ===================== HELPERS ===================== */
@@ -1187,7 +1272,7 @@ function iniciarNovo(modo){
   STATE.fase1={natureza:null,finalidade:null};
   STATE.fase2={abordagem:null,metodo:null};
   STATE.fase3={procedimento:null,temporalidade:null,viVd:'',amostra:'',controle:''};
-  STATE.fase4={validade:null,armadilhas:{}};
+  STATE.fase4={validade:null,armadilhas:{},armadilhasSelecionadas:null};
   STATE.flipOpen={};STATE.reflexao='';STATE.erroConsecutivo=0;
   goto('subarea');
 }
@@ -1217,6 +1302,8 @@ function render(){
     default: html=screenInicio();
   }
   app.innerHTML=html;
+  const wide = (STATE.screen==='orientador' && STATE.sessaoOrientador && STATE.sessaoOrientador.codigo);
+  app.classList.toggle('app-wide', !!wide);
 }
 
 /* 10 etapas reais; janela visível de 5 (1–5 ou 6–10) */
@@ -1413,6 +1500,7 @@ function encerrarSessaoLocal(){
     window.LabFB.encerrarSessao(cod).catch(()=>{});
   }
   STATE.sessaoOrientador = null;
+  STATE.qrSessaoAberto = false;
   try{ sessionStorage.removeItem('lab_sessao_orientador'); }catch(e){}
   render();
 }
@@ -1505,7 +1593,7 @@ function htmlSubcardsOpcoes(chave, valorSalvo){
   }
   return '<div class="opt-stack">'+lista.map(function(o){
     var isEscolhida = (o.texto === escolhido || o.id === escolhido || o.nome === escolhido);
-    var badge = isEscolhida ? '<span class="opt-badge">Escolha do aluno</span>' : '';
+    var badge = isEscolhida ? '<span class="opt-badge">Escolhida</span>' : '';
     var extra = o.extra ? '<div class="opt-extra">'+String(o.extra).replace(/</g,'&lt;')+'</div>' : '';
     var verso = o.verso ? '<p class="opt-verso">'+String(o.verso).replace(/</g,'&lt;')+'</p>' : '';
     return '<div class="opt-sub'+(isEscolhida?' escolhida':'')+'">'+
@@ -1518,8 +1606,8 @@ function htmlSubcardsOpcoes(chave, valorSalvo){
 function rowTeoria(titulo, chave, valorSalvo){
   var escolhido = normalizarEscolha(valorSalvo) || '—';
   var body = htmlSubcardsOpcoes(chave, valorSalvo);
-  return '<details class="acc-item"><summary>'+titulo+
-    ' <span style="font-weight:500;opacity:.7;font-size:12px;">· '+escolhido.replace(/</g,'&lt;')+'</span>'+
+  return '<details class="acc-item"><summary>'+
+    '<span class="sum-titulo">'+titulo+'<span class="sum-escolha">'+escolhido.replace(/</g,'&lt;')+'</span></span>'+
     '</summary><div class="acc-body">'+body+'</div></details>';
 }
 
@@ -1532,8 +1620,8 @@ function abrirRelatorioAluno(idx){
 
   var scoresHtml = '';
   if(a.scores){
-    scoresHtml = '<div class="rel-score-big">'+(a.scores.final!=null?a.scores.final:'—')+'<span style="font-size:1rem;">%</span></div>'+
-      '<p class="muted" style="text-align:center;font-size:12px;margin:0 0 12px;">Coerência '+ (a.scores.coerencia||'—')+' · Viés '+(a.scores.vies||'—')+' · Geral '+(a.scores.generalizacao||'—')+'</p>';
+    scoresHtml = '<div class="rel-score-card"><div class="rsc-num">'+(a.scores.final!=null?a.scores.final:'—')+'<span>%</span></div>'+
+      '<div class="rsc-detail">Nota final do parecer<br><b>Coerência</b> '+(a.scores.coerencia||'—')+' · <b>Viés</b> '+(a.scores.vies||'—')+' · <b>Generalização</b> '+(a.scores.generalizacao||'—')+'</div></div>';
   } else {
     scoresHtml = '<p class="muted" style="text-align:center;">Relatório completo ainda não enviado. Fase: '+(a.faseNome||a.fase||'—')+'</p>';
   }
@@ -1585,6 +1673,7 @@ function screenOrientador(){
   if(!s){
     return `<div class="brand"><div><div class="brand-name">Área restrita</div><div class="brand-title">Módulo do Orientador</div></div></div>
     <div class="section orientador-shell">
+      ${avisoLinkLocalHtml()}
       <div class="card">
         <span class="eyebrow">Sessão ao vivo</span>
         <p style="font-size:13.5px;margin:0 0 8px;">Crie uma sessão para a turma. Os alunos entram pelo QR Code ou pelo código. Os dados ficam só nesta sessão (mock local por enquanto).</p>
@@ -1594,43 +1683,80 @@ function screenOrientador(){
     </div>`;
   }
 
-  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=6&data=' + encodeURIComponent(s.link);
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&margin=6&data=' + encodeURIComponent(s.link);
   const nAlunos = (s.alunos && s.alunos.length) ? s.alunos.length : 0;
 
   return `<div class="brand"><div><div class="brand-name">Sessão ativa</div><div class="brand-title">Módulo do Orientador</div></div></div>
   <div class="section orientador-shell">
-    <div class="sessao-layout">
+    <div class="orientador-live">
 
-      <!-- Lateral: QR + código + ações -->
-      <div class="card sessao-side">
-        <span class="eyebrow">Código da sala</span>
-        <div class="sessao-codigo">${s.codigo}</div>
-        ${s.fb ? '<span class="sessao-status">Firebase · ao vivo</span>' : '<span class="sessao-status">Conectando…</span>'}
-        <div class="sessao-qr-side"><img src="${qrUrl}" alt="QR ${s.codigo}" width="140" height="140"/></div>
-        <p class="muted" style="font-size:11.5px;margin:0 0 4px;">Apontar a câmera ou digitar o código.</p>
-        <div class="sessao-link-sm" title="${s.link}">${s.link}</div>
-        <div class="btn-row">
-          <button class="btn btn-secondary" type="button" onclick="copiarTextoSessao('${s.link.replace(/'/g,"\\'")}')">Copiar link</button>
-          <button class="btn btn-primary" type="button" onclick="criarSessaoLocal()">Novo código</button>
+      ${avisoLinkLocalHtml()}
+
+      <div class="orientador-topbar">
+        <div class="otb-info">
+          <span class="eyebrow" style="margin:0;">Turma ao vivo</span>
+          <span class="otb-count">${nAlunos} aluno${nAlunos===1?'':'s'}${s.fb?' · ao vivo':' · conectando…'}</span>
         </div>
-        <div id="msgCopiaSessao" class="muted" style="min-height:16px;margin-top:6px;font-size:11.5px;"></div>
+        <div class="otb-actions">
+          <button class="btn btn-secondary btn-sm" type="button" onclick="abrirQrSessao()">Código · QR</button>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="goto('inicio')">← Início</button>
+        </div>
       </div>
 
-      <!-- Centro: turma (protagonista) -->
-      <div class="card turma-panel">
-        <div class="turma-head">
-          <span class="eyebrow" style="margin:0;">Turma ao vivo</span>
-          <span class="turma-count">${nAlunos} aluno${nAlunos===1?'':'s'}</span>
-        </div>
+      <!-- Grade de alunos: protagonista da tela, cresce conforme o espaço -->
+      <div class="turma-grid-wrap">
         <div class="grid-alunos-mock">${htmlGridAlunosOrientador(s.alunos)}</div>
       </div>
 
     </div>
 
-    <button class="btn btn-secondary btn-block" style="margin-top:14px;" onclick="encerrarSessaoLocal()">Encerrar sessão</button>
-    <button class="btn btn-ghost btn-block" style="margin-top:4px;" onclick="goto('inicio')">← Voltar ao início</button>
+    <!-- Modal: código da sala + QR + ações administrativas (fora do fluxo principal) -->
+    <div class="modal-senha-backdrop${STATE.qrSessaoAberto?'':' hidden'}" id="modalQrSessao" onclick="if(event.target===this) fecharQrSessao()">
+      <div class="modal-senha qr-modal-inner">
+        <h3>Código da sala</h3>
+        <div class="sessao-codigo">${s.codigo}</div>
+        ${s.fb ? '<span class="sessao-status">Firebase · ao vivo</span>' : '<span class="sessao-status">Conectando…</span>'}
+        ${avisoLinkLocalHtml()}
+        <div class="sessao-qr-side">
+          <img src="${qrUrl}" alt="QR ${s.codigo}" width="150" height="150" onerror="this.replaceWith(qrFallbackEl())"/>
+        </div>
+        <p class="muted" style="font-size:11.5px;margin:0 0 4px;">Apontar a câmera ou digitar o código.</p>
+        <div class="sessao-link-sm" title="${s.link}">${s.link}</div>
+        <div id="msgCopiaSessao" class="muted" style="min-height:16px;margin:4px 0 0;font-size:11.5px;text-align:center;"></div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" type="button" onclick="copiarTextoSessao('${s.link.replace(/'/g,"\\'")}')">Copiar link</button>
+          <button class="btn btn-secondary" type="button" onclick="window.open('${s.link.replace(/'/g,"\\'")}','_blank')">Testar link</button>
+          <button class="btn btn-primary" type="button" onclick="criarSessaoLocal()">Novo código</button>
+          <button class="btn btn-secondary" type="button" onclick="encerrarSessaoLocal();fecharQrSessao()">Encerrar sessão</button>
+          <button class="btn btn-ghost" type="button" onclick="fecharQrSessao()">Fechar</button>
+        </div>
+      </div>
+    </div>
+
   </div>`;
 }
+
+/* Aviso: se a página foi aberta como arquivo local (file://) ou preview temporário,
+   o QR/link geram um endereço que NENHUM outro aparelho consegue abrir — é a causa
+   mais comum de "QR sem dado utilizável". Precisa estar hospedado (GitHub Pages,
+   Netlify, servidor da faculdade etc.) num endereço público para a sala funcionar. */
+function avisoLinkLocalHtml(){
+  const proto = (window.location && window.location.protocol) || '';
+  if(proto === 'http:' || proto === 'https:') return '';
+  return `<div class="card" style="border-color:var(--red);background:rgba(143,59,46,.07);margin-bottom:12px;">
+    <span class="eyebrow" style="color:var(--red);">Atenção</span>
+    <p style="font-size:12.5px;margin:0;">Esta página está sendo aberta localmente (endereço "${proto}"), não pela internet. O QR Code e o link gerados só funcionam se este arquivo estiver hospedado num endereço público (ex.: GitHub Pages, Netlify, servidor da instituição) — assim os celulares dos alunos conseguem abri-lo pela rede. Enquanto estiver aberto localmente, o QR pode até ser lido, mas não leva a lugar nenhum.</p>
+  </div>`;
+}
+function qrFallbackEl(){
+  const d = document.createElement('div');
+  d.style.cssText = 'width:150px;height:150px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:var(--red);padding:8px;background:#fff;border-radius:8px;';
+  d.textContent = 'Não foi possível carregar a imagem do QR (sem conexão com o serviço externo). Use o código ou o link abaixo.';
+  return d;
+}
+
+function abrirQrSessao(){ STATE.qrSessaoAberto = true; render(); }
+function fecharQrSessao(){ STATE.qrSessaoAberto = false; render(); }
 
 
 
@@ -1978,7 +2104,11 @@ function screenFase3c(){
     <div class="phase-title">Variáveis e Controle</div>
     <p class="muted" style="margin-bottom:10px;">Descreva VI/VD, amostra e como controlará fatores confundidores.</p>
     <div class="field">
-      <label>VI e VD</label>
+      <p class="hint" style="margin:0 0 8px;line-height:1.5;">
+        <b>VI — Variável Independente</b> (a causa, o que você controla ou manipula)<br>
+        <b>VD — Variável Dependente</b> (o efeito ou resultado, o que você mede)<br>
+        <span style="color:var(--ink-soft);">Você quer saber se dormir mais horas melhora a nota na prova. VI = horas de sono (o que você observa/manipula) · VD = nota na prova (o que você mede como resultado).</span>
+      </p>
       <textarea placeholder="Ex.: VI — participação no programa de judô; VD — controle inibitório (teste Stroop)." oninput="STATE.fase3.viVd=this.value">${STATE.fase3.viVd}</textarea>
     </div>
     <div class="field">
@@ -2014,15 +2144,35 @@ function screenFase4a(){
 }
 
 /* ---- FASE 4B · Armadilhas ---- */
+/* Sorteia N armadilhas do banco (embaralhadas), fixas durante esta sessão/exercício,
+   para o aluno não decorar a ordem nem sempre ver as mesmas afirmações. */
+function sortearArmadilhas(qtd){
+  qtd = qtd || 6;
+  const pool = DATA.armadilhas.slice();
+  for(let i=pool.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+  }
+  return pool.slice(0, Math.min(qtd, pool.length)).map(a=>a.id);
+}
+function armadilhasDaSessao(){
+  if(!STATE.fase4.armadilhasSelecionadas || !STATE.fase4.armadilhasSelecionadas.length){
+    STATE.fase4.armadilhasSelecionadas = sortearArmadilhas();
+  }
+  return STATE.fase4.armadilhasSelecionadas
+    .map(id=>DATA.armadilhas.find(a=>a.id===id))
+    .filter(Boolean);
+}
 function screenFase4b(){
+  const lista = armadilhasDaSessao();
   return sessionBar()+`<div class="section">
     <div class="phase-header">Etapa 9 de 10</div>
     <div class="phase-title">Armadilhas Metodológicas</div>
     <p class="muted" style="margin-bottom:10px;">Classifique cada afirmação como Verdadeira ou Falsa.</p>
-    ${DATA.armadilhas.map(a=>armadilhaHtml(a)).join('')}
+    ${lista.map(a=>armadilhaHtml(a)).join('')}
     <div class="btn-row" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="goto('fase4a')">← Voltar</button>
-      <button class="btn btn-primary" ${Object.keys(STATE.fase4.armadilhas).length<DATA.armadilhas.length?'disabled':''} onclick="goto('parecer')">Ver Parecer</button>
+      <button class="btn btn-primary" ${Object.keys(STATE.fase4.armadilhas).length<lista.length?'disabled':''} onclick="goto('parecer')">Ver Parecer</button>
     </div>
   </div>`;
 }
@@ -2204,7 +2354,11 @@ function screenParecer(){
       </div>
 
       <div id="reflexaoExportBlock">${reflexaoExportHtml()}</div>
-      <div class="export-footer">${DATA.config.rodape_exportacao}</div>
+      <div class="export-footer">
+        <div class="ef-line ef-l1">${DATA.config.rodape_exportacao}</div>
+        <div class="ef-line ef-l2">${DATA.config.rodape_linha2}</div>
+        <div class="ef-line ef-l3">${DATA.config.rodape_linha3}</div>
+      </div>
     </div>
 
     <div class="no-print" style="margin-top:18px;">
