@@ -1105,6 +1105,90 @@
       "armadilha": false
     }
   ],
+  "procedimentos": [
+    {
+      "id": "Experimental",
+      "nome": "Experimental",
+      "desc": "Manipulação de uma variável independente, com grupo(s) de comparação e, quando possível, randomização."
+    },
+    {
+      "id": "Observacional",
+      "nome": "Observacional",
+      "desc": "Observa e mede variáveis como se apresentam, sem manipular a exposição ou intervenção."
+    },
+    {
+      "id": "Qualitativo",
+      "nome": "Qualitativo",
+      "desc": "Procedimentos de coleta e análise voltados à compreensão de significados (entrevistas, observação participante, análise de conteúdo)."
+    },
+    {
+      "id": "Misto",
+      "nome": "Misto",
+      "desc": "Combina procedimentos quantitativos e qualitativos, com estratégia explícita de integração."
+    }
+  ],
+  "armadilhas": [
+    {
+      "id": "a1",
+      "texto": "Formular a hipótese depois de já conhecer os resultados (HARKing) deixa o artigo mais coerente e por isso é uma boa prática.",
+      "correta": false,
+      "explicacao": "HARKing (Hypothesizing After Results are Known) é considerado um viés de má prática: apresenta como confirmatório algo que foi, na verdade, exploratório, distorcendo a leitura do rigor do estudo."
+    },
+    {
+      "id": "a2",
+      "texto": "Grupo controle e randomização ajudam a reduzir vieses de seleção em estudos experimentais.",
+      "correta": true,
+      "explicacao": "Correto. Randomização e grupo controle são os principais mecanismos para equilibrar características entre grupos e isolar o efeito da variável independente."
+    },
+    {
+      "id": "a3",
+      "texto": "Excluir da análise, sem critério pré-definido, os participantes cujos dados \"atrapalham\" o resultado esperado não compromete a validade do estudo.",
+      "correta": false,
+      "explicacao": "Excluir casos post-hoc sem critério declarado é uma forma de viés de seleção/relato (data dredging) e compromete diretamente o controle de viés e a credibilidade dos achados."
+    },
+    {
+      "id": "a4",
+      "texto": "Usar um instrumento de coleta já validado na literatura aumenta a confiabilidade da mensuração.",
+      "correta": true,
+      "explicacao": "Correto. Instrumentos validados reduzem erros de mensuração e permitem comparação com outros estudos que usaram o mesmo instrumento."
+    },
+    {
+      "id": "a5",
+      "texto": "Uma amostra grande garante, por si só, que os resultados sejam generalizáveis e livres de viés.",
+      "correta": false,
+      "explicacao": "Amostra grande reduz o erro amostral, mas não corrige viés de seleção: uma amostra grande e enviesada continua enviesada, apenas com mais precisão em torno do erro."
+    },
+    {
+      "id": "a6",
+      "texto": "Cegar (blinding) o avaliador em relação ao grupo do participante ajuda a reduzir o viés de expectativa na coleta de dados.",
+      "correta": true,
+      "explicacao": "Correto. Quando quem avalia o desfecho não sabe a qual grupo o participante pertence, reduz-se a influência das expectativas do avaliador sobre o resultado."
+    },
+    {
+      "id": "a7",
+      "texto": "Encontrar correlação entre duas variáveis já é suficiente para afirmar que uma causa a outra.",
+      "correta": false,
+      "explicacao": "Correlação não implica causalidade. Para inferir causa é preciso desenho experimental, controle de confundidores, temporalidade adequada e plausibilidade teórica."
+    },
+    {
+      "id": "a8",
+      "texto": "Registrar previamente (pré-registro) as hipóteses e a análise planejada aumenta a transparência e reduz o risco de p-hacking.",
+      "correta": true,
+      "explicacao": "Correto. O pré-registro impede alterar hipóteses ou análises depois de ver os dados, protegendo contra achados exploratórios apresentados como se fossem confirmatórios."
+    },
+    {
+      "id": "a9",
+      "texto": "Testar várias análises estatísticas diferentes até achar uma significativa (p<0,05) e reportar apenas essa é uma prática estatística aceitável.",
+      "correta": false,
+      "explicacao": "Isso é p-hacking: aumenta artificialmente a chance de um falso positivo e compromete seriamente a validade dos achados relatados."
+    },
+    {
+      "id": "a10",
+      "texto": "Declarar conflitos de interesse e fontes de financiamento faz parte do rigor ético e metodológico de uma pesquisa.",
+      "correta": true,
+      "explicacao": "Correto. A transparência sobre conflitos de interesse permite ao leitor avaliar possíveis influências nos resultados e nas conclusões apresentadas."
+    }
+  ],
   "config": {
     "reflexao_pergunta": "O que você mudaria no seu delineamento se fosse recomeçar? Por quê?",
     "parecer_aprovado": "O delineamento apresentado demonstra coerência epistemológica, controle adequado de vieses e escopo compatível com as conclusões pretendidas. Aprovado para publicação/defesa sem ressalvas.",
