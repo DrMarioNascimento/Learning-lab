@@ -1518,6 +1518,12 @@ function rowTeoria(titulo, chave, valorSalvo){
     '</summary><div class="acc-body">'+body+'</div></details>';
 }
 
+function escolhaLabel(x){
+  if(!x) return '—';
+  if(typeof x === 'string') return x.replace(/</g,'&lt;');
+  return String(x.texto||'—').replace(/</g,'&lt;');
+}
+
 function abrirRelatorioAluno(idx){
   var s = STATE.sessaoOrientador;
   if(!s || !s.alunos || !s.alunos[idx]) return;
@@ -1525,14 +1531,59 @@ function abrirRelatorioAluno(idx){
   if(document.getElementById('modalRelAluno')) document.getElementById('modalRelAluno').remove();
   var esc = a.escolhas || {};
 
-  var scoresHtml = '';
+  /* Mesma lógica de veredicto e mesmos componentes visuais do parecer do aluno (.stamp,
+     .pillar-detail, .verdict-text) — garante que a cor bata com o relatório individual. */
+  var scoreBlockHtml, exportButtons = '';
   if(a.scores){
-    scoresHtml = '<div class="rel-score-card"><div class="rsc-num">'+(a.scores.final!=null?a.scores.final:'—')+'<span>%</span></div>'+
-      '<div class="rsc-detail">Nota final do parecer<br><b>Coerência</b> '+(a.scores.coerencia||'—')+' · <b>Viés</b> '+(a.scores.vies||'—')+' · <b>Generalização</b> '+(a.scores.generalizacao||'—')+'</div></div>';
+    var v = veredicto(a.scores.final);
+    scoreBlockHtml =
+      '<div class="stamp-wrap"><div class="stamp '+v.key+'">'+
+        '<div class="score">'+a.scores.final+'<sub>%</sub></div>'+
+        '<div class="verdict-tag">'+v.label+'</div>'+
+      '</div></div>'+
+      '<div class="pillar-detail">'+
+        pillarRow('Coerência Epistemológica', a.scores.coerencia, 30)+
+        pillarRow('Controle de Viés', a.scores.vies, 40)+
+        pillarRow('Generalização e Escopo', a.scores.generalizacao, 30)+
+      '</div>'+
+      '<div class="verdict-text">'+v.texto+'</div>';
+    var nomeSlug = String(a.nome||'aluno').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'') || 'aluno';
+    exportButtons =
+      '<div class="btn-row no-print" style="margin:0 0 14px;">'+
+        '<button class="btn btn-gold" onclick="exportarImagemModalAluno(\''+nomeSlug+'\')">Exportar Imagem</button>'+
+        '<button class="btn btn-secondary" onclick="window.print()">Exportar PDF</button>'+
+      '</div>';
   } else {
-    scoresHtml = '<p class="muted" style="text-align:center;">Relatório completo ainda não enviado. Fase: '+(a.faseNome||a.fase||'—')+'</p>';
+    scoreBlockHtml = '<p class="muted" style="text-align:center;">Relatório completo ainda não enviado. Fase: '+(a.faseNome||a.fase||'—')+'</p>';
   }
-  var metodo = a.relatorioTexto ? '<div class="card" style="margin:10px 0;"><span class="eyebrow">Método montado</span><p style="font-size:13px;margin:6px 0 0;line-height:1.45;">'+String(a.relatorioTexto).replace(/</g,'&lt;')+'</p></div>' : '';
+
+  var metodo = a.relatorioTexto ?
+    '<span class="eyebrow">Descrição metodológica</span><div class="metodo-montado"><span class="mm-label">Sugestão de texto para o método do projeto</span><p style="margin:0;">'+String(a.relatorioTexto).replace(/</g,'&lt;')+'</p></div>' : '';
+
+  var decisoes = (esc && Object.keys(esc).length) ?
+    '<span class="eyebrow">Decisões registradas</span><div class="decisions-recap card" style="padding:12px 14px;">'+
+      '<div class="drow"><span>Natureza</span><b>'+escolhaLabel(esc.natureza)+'</b></div>'+
+      '<div class="drow"><span>Finalidade</span><b>'+escolhaLabel(esc.finalidade)+'</b></div>'+
+      '<div class="drow"><span>Abordagem</span><b>'+escolhaLabel(esc.abordagem)+'</b></div>'+
+      '<div class="drow"><span>Método</span><b>'+escolhaLabel(esc.metodo)+'</b></div>'+
+      '<div class="drow"><span>Procedimento</span><b>'+escolhaLabel(esc.procedimento)+'</b></div>'+
+      '<div class="drow"><span>Temporalidade</span><b>'+escolhaLabel(esc.temporalidade)+'</b></div>'+
+    '</div>' : '';
+
+  var footer = (a.scores) ?
+    '<div class="export-footer">'+
+      '<div class="ef-line ef-l1">'+(DATA.config.rodape_exportacao||'')+'</div>'+
+      '<div class="ef-line ef-l2">'+(DATA.config.rodape_linha2||'')+'</div>'+
+      '<div class="ef-line ef-l3">'+(DATA.config.rodape_linha3||'')+'</div>'+
+    '</div>' : '';
+
+  var exportBlock =
+    '<div id="printArea"><div id="modalExportArea">'+
+      '<span class="eyebrow" style="line-height:1.35;">Relatório de Delineamento Metodológico revisado pelo Orientador</span>'+
+      '<div class="phase-title" style="margin-bottom:2px;margin-top:6px;">'+(DATA.config.titulo_parecer||'')+'</div>'+
+      '<p class="muted">'+(a.nome||'Aluno').replace(/</g,'')+' · '+(a.faseNome||'')+'</p>'+
+      scoreBlockHtml + metodo + decisoes + footer+
+    '</div></div>';
 
   var accordions =
     rowTeoria('Natureza', 'natureza', esc.natureza) +
@@ -1549,7 +1600,7 @@ function abrirRelatorioAluno(idx){
   wrap.id = 'modalRelAluno';
   wrap.className = 'modal-rel-backdrop';
   wrap.onclick = function(e){ if(e.target===wrap) wrap.remove(); };
-  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="fecharModalRelAluno()">Fechar</button></div><div class="modal-rel-body">'+scoresHtml+metodo+accordions+'</div></div>';
+  wrap.innerHTML = '<div class="modal-rel" role="dialog"><div class="modal-rel-head no-print"><div class="av">'+(a.avatar||'👤')+'</div><div class="info"><div class="nm">'+(a.nome||'Aluno').replace(/</g,'')+'</div><div class="sub">'+(a.faseNome||'')+(a.status==='concluiu'?' · concluído':'')+'</div></div><button type="button" onclick="fecharModalRelAluno()">Fechar</button></div><div class="modal-rel-body">'+exportButtons+exportBlock+accordions+'</div></div>';
   document.body.appendChild(wrap);
 }
 
@@ -2310,15 +2361,22 @@ function reflexaoExportHtml(){
 }
 function syncReflexao(){const el=document.getElementById('reflexaoExportBlock');if(el)el.innerHTML=reflexaoExportHtml();}
 
-function exportarImagem(){
-  const el=document.getElementById('exportArea');
+function exportarImagemElemento(elId, filename){
+  const el=document.getElementById(elId);
+  if(!el){ showToast('Nada para exportar.'); return; }
   showToast('Gerando imagem…');
   html2canvas(el,{backgroundColor:'#f3ebd4',scale:2}).then(canvas=>{
     const link=document.createElement('a');
-    link.download=`parecer_${STATE.cenario.id}.png`;
+    link.download=filename;
     link.href=canvas.toDataURL('image/png');
     link.click();
   });
+}
+function exportarImagem(){
+  exportarImagemElemento('exportArea', `parecer_${STATE.cenario.id}.png`);
+}
+function exportarImagemModalAluno(nomeSlug){
+  exportarImagemElemento('modalExportArea', `parecer_${nomeSlug||'aluno'}.png`);
 }
 
 /* ---- EXPANDABLE CARDS ---- */
