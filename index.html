@@ -129,6 +129,10 @@ body{
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
 .btn-block{width:100%;}
 .btn-row{display:flex;gap:10px;margin-top:14px;}
+.btn-row.stack-narrow{flex-direction:column;}
+@media(min-width:480px){
+  .btn-row.stack-narrow{flex-direction:row;}
+}
 .btn-row .btn{flex:1;}
 
 /* Cards & layout */
@@ -188,7 +192,7 @@ body{
   background:linear-gradient(180deg, var(--green-dark), var(--green-mid));
   color:var(--paper);padding:10px 14px 12px;border-bottom:2px solid var(--gold);
 }
-.session-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.session-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-right:92px;}
 .session-top .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-soft);}
 .session-top .fase-label{font-family:var(--display);font-size:0.9rem;letter-spacing:.04em;}
 .pillars{display:flex;gap:7px;}
@@ -302,10 +306,14 @@ body{
   object-fit:contain;object-position:bottom center;display:block;
 }
 .acervo-btn{
-  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
-  background:transparent;border:1px solid var(--gold-dim);color:var(--gold-soft);
-  border-radius:3px;padding:5px 9px;cursor:pointer;
+  position:absolute;top:12px;right:14px;z-index:3;
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  background:rgba(0,0,0,.2);border:1px solid var(--gold-dim);color:var(--gold-soft);
+  border-radius:20px;height:36px;padding:0 14px;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  cursor:pointer;transition:background .15s ease, border-color .15s ease;
 }
+.acervo-btn:hover, .acervo-btn:active{background:rgba(0,0,0,.32);border-color:var(--gold-soft);}
 
 /* Scenario */
 .scenario-box{
@@ -2281,7 +2289,7 @@ function screenParecer(){
         <button class="btn btn-gold" onclick="exportarImagem()">Exportar Imagem</button>
         <button class="btn btn-secondary" onclick="window.print()">Exportar PDF</button>
       </div>
-      <div class="btn-row" style="margin-top:8px;">
+      <div class="btn-row stack-narrow" style="margin-top:8px;">
         <button class="btn btn-secondary" onclick="goto('fase4b')">← Refazer Armadilhas</button>
         <button class="btn btn-primary" onclick="iniciarNovo()">Novo Projeto</button>
       </div>
