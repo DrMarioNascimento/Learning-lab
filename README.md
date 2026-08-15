@@ -1,5 +1,7 @@
-# Learning-lab
-# Laboratório do Pesquisador – Delineamentos
+# Learning Lab
+# Laboratório do Pesquisador — Delineamentos
+
+> **Projeto intelectual pessoal de Mário César Nascimento, PhD. Todos os direitos reservados.**
 
 **Protótipo interativo mobile-first** para construção de projetos de pesquisa em Educação Física, com feedback automático sobre rigor metodológico.
 
@@ -47,19 +49,18 @@ Também inclui um **Acervo Teórico**.
 
 ---
 
-## Como usar localmente
+## Como utilizar
 
-1. Baixe ou clone o repositório
-2. Abra o arquivo `index.html` no navegador
-
-Não é necessário instalar nada.
+Acesse a versão disponibilizada pelo autor no endereço indicado acima. O uso educacional funcional é permitido nos termos de [LICENSE.md](LICENSE.md). A publicação do código não autoriza cópia, adaptação, republicação ou exploração comercial.
 
 ---
 
-## Autor
+## Autoria e titularidade declarada
 
-**Prof. Dr. Mario Cesar Nascimento**  
-UDESC · CEFID
+**Autor e titular declarado:** Mário César Nascimento, PhD  
+**Perfil responsável:** [DrMarioNascimento](https://github.com/DrMarioNascimento)
+
+A vinculação profissional do autor ao CEFID/UDESC é informação acadêmica e não identifica a Universidade como autora, titular ou licenciadora deste repositório.
 
 ---
 
