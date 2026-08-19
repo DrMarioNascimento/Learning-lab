@@ -4,7 +4,7 @@ Copyright © 2026 Mário César Nascimento. Todos os direitos reservados.
 
 ## Titularidade declarada
 
-O projeto **Learning Lab — Laboratório do Pesquisador**, incluindo seus códigos-fonte, bases de dados, cenários de pesquisa, pareceres, elementos visuais, textos, planilhas, organização didática e demais componentes originais, é apresentado como criação intelectual pessoal de **Mário César Nascimento**.
+O projeto **Learning Lab — Laboratório do Pesquisador**, incluindo a página central, seus laboratórios e subprojetos, códigos-fonte, bases de dados, cenários de pesquisa, devolutivas e pareceres, elementos visuais, textos, planilhas, relatórios, organização didática e demais componentes originais, é apresentado como criação intelectual pessoal de **Mário César Nascimento**.
 
 A disponibilização pública deste repositório não representa cessão, transferência, renúncia ou abandono de direitos autorais ou de quaisquer outros direitos aplicáveis.
 
@@ -26,7 +26,7 @@ Sem autorização prévia, expressa e escrita do titular, não é permitido:
 - copiar, baixar ou redistribuir o código-fonte e os materiais, salvo quando tecnicamente indispensável à execução autorizada;
 - modificar, adaptar, traduzir ou criar obras derivadas;
 - republicar, hospedar ou disponibilizar os materiais em outro site, plataforma, aplicativo ou repositório;
-- incorporar o código, os elementos visuais, as narrativas, os casos ou a organização didática em outros projetos;
+- incorporar o código, os elementos visuais, as narrativas, os casos, os cenários ou a organização didática em outros projetos;
 - remover, ocultar ou alterar avisos de autoria e créditos;
 - vender, sublicenciar, ceder ou explorar economicamente o projeto;
 - utilizar o projeto ou suas partes para fins comerciais;
@@ -44,7 +44,10 @@ Os materiais são disponibilizados para finalidades educacionais e demonstrativa
 
 **Autor e titular declarado:** Mário César Nascimento, PhD  
 **Projeto:** Learning Lab — Laboratório do Pesquisador  
+**Perfil responsável:** [DrMarioNascimento](https://github.com/DrMarioNascimento)  
 **País:** Brasil  
 **Ano:** 2026
+
+A vinculação profissional do autor ao CEFID/UDESC é informação acadêmica e não identifica a Universidade como autora, titular ou licenciadora deste repositório.
 
 Todos os direitos não expressamente concedidos neste documento permanecem reservados ao titular.
