@@ -1,5 +1,12 @@
 # Learning Lab — Laboratório do Pesquisador
 
+## Estado e manutenção — 10 de outubro de 2026
+
+Os dois laboratórios implementados são [Delineamentos](delineamentos/) e [Instrumentos de Coleta](instrumentos-de-coleta/). As escolhas, devolutivas e relatórios têm finalidade formativa; o índice de rigor não equivale à validação científica de um projeto real.
+
+As páginas são HTML/CSS/JavaScript, sem processo de compilação. O modo de turma usa Firestore; o uso individual e a exportação de relatório têm fluxos próprios, descritos abaixo. Uma senha de interface não substitui autorização no serviço de dados. Não há workflow de CI nem suíte automatizada de testes no repositório nesta revisão.
+
+
 **English** · [Português](#português)
 
 > **Personal intellectual project of Mário César Nascimento, PhD. All rights reserved.**

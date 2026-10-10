@@ -165,3 +165,11 @@ Permission requests and contacts regarding this license should be sent to the ri
 ### 10. Language
 
 This license is written in Portuguese. Any translations are provided for convenience only; in case of any discrepancy, the Portuguese version prevails.
+
+---
+
+## Nota editorial — 10 de outubro de 2026
+
+A documentação distingue os laboratórios de Delineamentos e Instrumentos de Coleta e seus modos individual e de turma.
+
+Esta nota registra a revisão da documentação. Não altera as cláusulas anteriores, os titulares, as permissões, as restrições nem as licenças próprias de terceiros.
