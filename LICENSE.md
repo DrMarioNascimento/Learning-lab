@@ -173,3 +173,9 @@ This license is written in Portuguese. Any translations are provided for conveni
 A documentação distingue os laboratórios de Delineamentos e Instrumentos de Coleta e seus modos individual e de turma.
 
 Esta nota registra a revisão da documentação. Não altera as cláusulas anteriores, os titulares, as permissões, as restrições nem as licenças próprias de terceiros.
+
+## Endereço de apresentação — 14 de outubro de 2026
+
+O portal de apresentação do autor usa o endereço abaixo. Este endereço não altera a hospedagem própria do recurso, a titularidade ou as permissões desta licença.
+
+https://www.drmarionascimento.com.br/
