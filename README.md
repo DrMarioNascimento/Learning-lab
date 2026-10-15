@@ -22,7 +22,7 @@ As páginas são HTML/CSS/JavaScript, sem processo de compilação. O modo de tu
 
 Learning Lab: mobile-first research methods labs for Physical Education. Students act as junior researchers, choosing study designs and data collection instruments, and get formative feedback. Includes a classroom mode with QR code join and live tracking.
 
-**Open online:** [drmarionascimento.github.io/Learning-lab](https://drmarionascimento.github.io/Learning-lab/)
+**Open online:** [laboratorio-de-pesquisa.drmarionascimento.com.br](https://laboratorio-de-pesquisa.drmarionascimento.com.br/)
 
 The interface and all content are in Brazilian Portuguese.
 
@@ -32,8 +32,8 @@ Undergraduate students in Physical Education research methods courses, and the i
 
 ## Labs
 
-- **[Study Designs (Delineamentos)](https://drmarionascimento.github.io/Learning-lab/delineamentos/)** — the student picks one of eight Physical Education subareas, receives a randomly drawn research scenario and builds a study design step by step: nature and purpose, approach and method, procedure and time frame, variables, sample and control, validity, and a set of methodological pitfalls. The lab ends with a written reflection and a methodological report with a rigor score, a checklist and a draft method description. A reference library of the concepts is available at any time.
-- **[Data Collection Instruments (Instrumentos de Coleta)](https://drmarionascimento.github.io/Learning-lab/instrumentos-de-coleta/)** — within one chosen subarea, the student goes through a short warm-up, three labs (Interview, Observation, Questionnaire), a comparison and triangulation stage, and an integrative mission of eight linked decisions. A wrong first answer triggers a hint and a second attempt (partial credit). The final report weights each stage.
+- **[Study Designs (Delineamentos)](https://laboratorio-de-pesquisa.drmarionascimento.com.br/delineamentos/)** — the student picks one of eight Physical Education subareas, receives a randomly drawn research scenario and builds a study design step by step: nature and purpose, approach and method, procedure and time frame, variables, sample and control, validity, and a set of methodological pitfalls. The lab ends with a written reflection and a methodological report with a rigor score, a checklist and a draft method description. A reference library of the concepts is available at any time.
+- **[Data Collection Instruments (Instrumentos de Coleta)](https://laboratorio-de-pesquisa.drmarionascimento.com.br/instrumentos-de-coleta/)** — within one chosen subarea, the student goes through a short warm-up, three labs (Interview, Observation, Questionnaire), a comparison and triangulation stage, and an integrative mission of eight linked decisions. A wrong first answer triggers a hint and a second attempt (partial credit). The final report weights each stage.
 
 The labs are independent and can be used separately.
 
@@ -67,9 +67,9 @@ O **Learning Lab — Laboratório do Pesquisador** é um ambiente digital de apr
 
 ## Acesso
 
-- **Página central:** [drmarionascimento.github.io/Learning-lab](https://drmarionascimento.github.io/Learning-lab/)
-- **Laboratório de Delineamentos:** [drmarionascimento.github.io/Learning-lab/delineamentos/](https://drmarionascimento.github.io/Learning-lab/delineamentos/)
-- **Laboratório de Instrumentos de Coleta:** [drmarionascimento.github.io/Learning-lab/instrumentos-de-coleta/](https://drmarionascimento.github.io/Learning-lab/instrumentos-de-coleta/)
+- **Página central:** [laboratorio-de-pesquisa.drmarionascimento.com.br](https://laboratorio-de-pesquisa.drmarionascimento.com.br/)
+- **Laboratório de Delineamentos:** [laboratorio-de-pesquisa.drmarionascimento.com.br/delineamentos/](https://laboratorio-de-pesquisa.drmarionascimento.com.br/delineamentos/)
+- **Laboratório de Instrumentos de Coleta:** [laboratorio-de-pesquisa.drmarionascimento.com.br/instrumentos-de-coleta/](https://laboratorio-de-pesquisa.drmarionascimento.com.br/instrumentos-de-coleta/)
 
 Os laboratórios funcionam no navegador, em celular ou computador, sem instalação.
 
