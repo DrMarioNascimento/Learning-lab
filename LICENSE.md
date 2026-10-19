@@ -166,16 +166,14 @@ Permission requests and contacts regarding this license should be sent to the ri
 
 This license is written in Portuguese. Any translations are provided for convenience only; in case of any discrepancy, the Portuguese version prevails.
 
----
-
-## Nota editorial — 10 de outubro de 2026
-
-A documentação distingue os laboratórios de Delineamentos e Instrumentos de Coleta e seus modos individual e de turma.
-
-Esta nota registra a revisão da documentação. Não altera as cláusulas anteriores, os titulares, as permissões, as restrições nem as licenças próprias de terceiros.
-
 ## Endereço de apresentação — 14 de outubro de 2026
 
 O portal de apresentação do autor usa o endereço abaixo. Este endereço não altera a hospedagem própria do recurso, a titularidade ou as permissões desta licença.
 
 https://www.drmarionascimento.com.br/
+
+## Revisão documental — 19 de outubro de 2026
+
+O escopo permanece nos componentes originais do Laboratório do Pesquisador, incluindo Delineamentos e Instrumentos de Coleta. As condições de serviços e bibliotecas de terceiros permanecem próprias.
+
+Esta revisão atualiza a identificação e o escopo documental. Preserva os titulares, as permissões e as restrições existentes. Não substitui nem restringe as licenças próprias de componentes de terceiros.

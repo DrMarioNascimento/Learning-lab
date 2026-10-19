@@ -1,5 +1,9 @@
 # Learning Lab — Laboratório do Pesquisador
 
+## Situação atual — 19 de outubro de 2026
+
+O Laboratório do Pesquisador conserva as aplicações independentes de [Delineamentos](delineamentos/) e [Instrumentos de Coleta](instrumentos-de-coleta/). As páginas de estudo são estáticas; o modo de turma depende dos serviços configurados em cada aplicação. O domínio oficial está em [CNAME](CNAME). Alterações no catálogo de Fisiologia não criam automaticamente novos roteiros de pesquisa.
+
 ## Ética e Pesquisa — aberta ao público
 
 Esta linha reúne materiais e atividades interativas para apoiar o ensino de Ética e Metodologia da Pesquisa. Por meio de situações-problema, reflexão crítica e discussão, os recursos estimulam a construção do conhecimento.
@@ -9,7 +13,7 @@ Portal do autor: https://www.drmarionascimento.com.br/
 O acesso público aos recursos não altera as condições de reutilização em [LICENSE.md](LICENSE.md).
 
 
-## Estado e manutenção — 10 de outubro de 2026
+## Registro anterior de manutenção — 10 de outubro de 2026
 
 Os dois laboratórios implementados são [Delineamentos](delineamentos/) e [Instrumentos de Coleta](instrumentos-de-coleta/). As escolhas, devolutivas e relatórios têm finalidade formativa; o índice de rigor não equivale à validação científica de um projeto real.
 
