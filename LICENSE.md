@@ -177,3 +177,13 @@ https://www.drmarionascimento.com.br/
 O escopo permanece nos componentes originais do Laboratório do Pesquisador, incluindo Delineamentos e Instrumentos de Coleta. As condições de serviços e bibliotecas de terceiros permanecem próprias.
 
 Esta revisão atualiza a identificação e o escopo documental. Preserva os titulares, as permissões e as restrições existentes. Não substitui nem restringe as licenças próprias de componentes de terceiros.
+
+## Escopo e disponibilidade — 24 de outubro de 2026
+
+Delineamentos e Instrumentos de Coleta permanecem disponíveis para estudo individual público. O modo de turma conserva os controles próprios. Cenários, devolutivas, relatórios e interfaces originais continuam sujeitos a esta licença.
+
+Esta revisão documenta o escopo e a disponibilidade atuais; preserva os titulares, as permissões e as restrições existentes, inclusive os direitos e licenças próprios de terceiros. Acesso público não equivale a licença de código aberto.
+
+Inventário de acessos: https://www.drmarionascimento.com.br/#acesso-publico
+
+**English — scope and availability, October 24, 2026:** Research Designs and Data Collection Instruments remain public for individual study. Classroom controls and this license still apply. Existing ownership, grants, restrictions and third-party terms are preserved; public access does not mean open source.

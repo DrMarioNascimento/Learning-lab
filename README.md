@@ -1,6 +1,12 @@
 # Learning Lab — Laboratório do Pesquisador
 
-## Situação atual — 19 de outubro de 2026
+## Disponibilidade e novidades — 24 de outubro de 2026
+
+**Público e gratuito**: [Delineamentos](https://laboratorio-de-pesquisa.drmarionascimento.com.br/delineamentos/) e [Instrumentos de Coleta](https://laboratorio-de-pesquisa.drmarionascimento.com.br/instrumentos-de-coleta/) podem ser estudados individualmente. O modo de turma tem seus próprios controles e depende dos serviços configurados; a entrada pública do estudo individual não implica liberação do painel de acompanhamento docente.
+
+[Ver todos os recursos públicos](https://www.drmarionascimento.com.br/#acesso-publico). O acesso respeita [LICENSE.md](LICENSE.md).
+
+## Contexto técnico — registro de 19 de outubro de 2026
 
 O Laboratório do Pesquisador conserva as aplicações independentes de [Delineamentos](delineamentos/) e [Instrumentos de Coleta](instrumentos-de-coleta/). As páginas de estudo são estáticas; o modo de turma depende dos serviços configurados em cada aplicação. O domínio oficial está em [CNAME](CNAME). Alterações no catálogo de Fisiologia não criam automaticamente novos roteiros de pesquisa.
 
