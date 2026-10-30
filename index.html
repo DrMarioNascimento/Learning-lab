@@ -22,6 +22,7 @@
     @media(max-width:760px){.nav-links{display:none}.hero-grid{min-height:auto;grid-template-columns:1fr;padding-top:58px}.hero h1{font-size:clamp(2.8rem,15vw,4.6rem)}.hero-figure{height:220px;justify-content:center;transform:none}.hero-figure img{height:220px}.hero-actions{display:grid}.lab-grid,.method-grid{grid-template-columns:1fr}.labs-head{display:block}.labs-head p{margin-top:12px}.lab-card{min-height:420px}.topics{grid-template-columns:1fr}.intro{padding-top:48px}}
     @media(max-width:420px){.shell{width:min(calc(100% - 24px),1080px)}.brand-copy span{font-size:8px}.hero-grid{padding-top:48px}.hero-figure{height:200px}.hero-figure img{height:200px}.lab-card{padding:23px}.method{padding:48px 0}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+    .hero-figure[data-qr-figure]{transform:none;align-self:center;flex-direction:column;align-items:center;gap:20px;height:auto;padding-block:20px}
   </style>
 </head>
 <body>
@@ -35,14 +36,12 @@
     <section class="hero" id="inicio">
       <div class="hero-grid shell">
         <div>
-          <div data-qr-intro><div data-qr-copy>
           <span class="eyebrow">Pesquisa em Educação Física I</span>
           <h1>Aprender pesquisa <span>fazendo pesquisa.</span></h1>
           <p>Explore decisões metodológicas, teste possibilidades e receba orientação imediata em laboratórios interativos construídos para a formação do pesquisador.</p>
-          </div><div data-acesso-qr-slot></div></div>
           <div class="hero-actions"><a class="btn btn-gold" href="#laboratorios">Conhecer os laboratórios</a><a class="btn btn-light" href="instrumentos-de-coleta/" target="_blank" rel="noopener noreferrer">Entrar no laboratório mais recente</a></div>
         </div>
-        <div class="hero-figure"><img src="instrumentos-de-coleta/avatar-orientador-corpo.png" alt="Orientador do Laboratório do Pesquisador"></div>
+        <div class="hero-figure" data-qr-figure><div data-acesso-qr-slot></div><img src="instrumentos-de-coleta/avatar-orientador-corpo.png" alt="Orientador do Laboratório do Pesquisador"></div>
       </div>
     </section>
     <section class="intro shell">
