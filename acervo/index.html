@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#04060a">
+<title>Acervo — acesso restrito</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2338e1c6'/%3E%3Cstop offset='.5' stop-color='%23a58cff'/%3E%3Cstop offset='1' stop-color='%23ff5a2c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Crect x='3' y='3' width='26' height='26' rx='7' fill='%2304060a'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%2338e1c6'/%3E%3C/svg%3E">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:#04060a;color:#e9eef7;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  body{display:grid;place-items:center;min-height:100dvh;padding:24px;
+    background:radial-gradient(680px 420px at 18% 0%,rgba(56,225,198,.16),transparent 70%),radial-gradient(620px 420px at 100% 100%,rgba(255,90,44,.14),transparent 70%),radial-gradient(520px 360px at 60% 40%,rgba(165,140,255,.10),transparent 70%),#04060a}
+  .porta{width:min(100%,420px);padding:30px 26px 24px;border-radius:22px;text-align:center;
+    background:linear-gradient(180deg,#121826,#0a0f19);border:1px solid rgba(160,190,255,.16);border-bottom-color:rgba(0,0,0,.5);
+    box-shadow:0 8px 0 #020308,0 26px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.10)}
+  .sinal{width:64px;height:64px;margin:0 auto 14px;border-radius:19px;padding:5px;background:linear-gradient(135deg,#38e1c6,#a58cff 50%,#ff5a2c);box-shadow:0 0 34px rgba(165,140,255,.35)}
+  .sinal i{display:grid;place-items:center;width:100%;height:100%;border-radius:14px;background:#04060a}
+  .sinal i::after{content:"";width:18px;height:18px;border-radius:50%;background:#38e1c6;box-shadow:0 0 16px #38e1c6}
+  h1{margin:0;font-size:28px;letter-spacing:.14em;font-weight:800}
+  .quem{margin:4px 0 0;color:#9fb0c8;font-size:14px}
+  .txt{margin:18px 0 18px;color:#c7d3e6;font-size:16px;line-height:1.5}
+  .btn{appearance:none;border:0;cursor:pointer;width:100%;min-height:52px;padding:12px 18px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;color:#06231e;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(180deg,#7ff0dc,#38e1c6 60%);box-shadow:0 5px 0 #0f8f7c,0 12px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.55);transition:transform .08s,box-shadow .08s,filter .15s}
+  @media (hover:hover){.btn:hover{filter:brightness(1.06)}}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #0f8f7c,0 4px 10px rgba(0,0,0,.4)}
+  .btn:disabled{filter:grayscale(.8) brightness(.7);transform:translateY(3px);box-shadow:0 2px 0 #0f8f7c;cursor:default}
+  .btn:focus-visible,.sec:focus-visible{outline:3px solid #a58cff;outline-offset:3px}
+  .sec{appearance:none;background:none;border:0;color:#9fb0c8;font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:14px;min-height:44px;padding:0 10px}
+  .estado{min-height:24px;margin:14px 0 0;font-size:15px;color:#c7d3e6}
+  .estado.erro{color:#ffb4a2}
+  .gira{display:inline-block;width:16px;height:16px;margin-right:8px;vertical-align:-3px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#38e1c6;animation:g .8s linear infinite}
+  @keyframes g{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.gira{animation:none}.btn{transition:none}}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="porta">
+  <div class="sinal" aria-hidden="true"><i></i></div>
+  <h1>ACERVO</h1>
+  <p class="quem">Prof. Mário César Nascimento, PhD</p>
+  <p class="txt" id="txt">Acesso restrito. Entre com a conta Google autorizada.</p>
+  <button class="btn" id="entrar" type="button" disabled>
+    Entrar com Google
+  </button>
+  <p class="estado" id="estado" role="status" aria-live="polite"></p>
+  <button class="sec" id="trocar" type="button" hidden>Entrar com outra conta</button>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+/* Mesmo projeto do Laboratório do Pesquisador. Quem pode ler o Acervo é decidido pelas regras do Firestore, não por este arquivo. */
+const cfg = { apiKey: "AIzaSyAXjrSQUbsK9EMp5gxMyFHzQjIVDIzOuRw", authDomain: "laboratoriodopesquisador.firebaseapp.com", projectId: "laboratoriodopesquisador", appId: "1:779464235643:web:7a9c220660f07531f720de" };
+const auth = getAuth(initializeApp(cfg));
+const BASE = `https://firestore.googleapis.com/v1/projects/${cfg.projectId}/databases/(default)/documents/acervo/`;
+const $ = (id) => document.getElementById(id);
+const estado = (t, erro = false, gira = false) => { const e = $("estado"); e.className = "estado" + (erro ? " erro" : ""); e.innerHTML = (gira ? '<span class="gira" aria-hidden="true"></span>' : "") + t; };
+
+async function ler(doc, token) {
+  const r = await fetch(BASE + doc, { headers: { Authorization: "Bearer " + token } });
+  if (r.status === 403) { const e = new Error("sem acesso"); e.code = "permission-denied"; throw e; }
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error("leitura " + r.status);
+  return (await r.json()).fields || null;
+}
+async function descompactar(b64) {
+  const bin = atob(b64), bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  if (!("DecompressionStream" in window)) throw new Error("navegador antigo");
+  return await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
+}
+/* Online só valem os endereços publicados: os botões "Local" (arquivos do backup no PC) ficam escondidos. */
+const EXTRA = `<style>a[href]:not([href^="http"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]){display:none!important}
+#acervoSair{position:fixed;right:12px;bottom:12px;z-index:99999;appearance:none;border:1px solid rgba(160,190,255,.25);background:rgba(8,12,20,.82);color:#c7d3e6;font:600 13px system-ui,sans-serif;padding:0 14px;min-height:44px;border-radius:12px;cursor:pointer;backdrop-filter:blur(6px)}
+#acervoSair:focus-visible{outline:3px solid #a58cff;outline-offset:2px}</style>
+<button id="acervoSair" type="button" onclick="window.__acervoSair&&window.__acervoSair()">Sair</button>`;
+
+async function abrir(user) {
+  $("entrar").disabled = true; $("trocar").hidden = true;
+  estado("Abrindo o Acervo…", false, true);
+  try {
+    const token = await user.getIdToken();
+    const meta = await ler("atual", token);
+    if (!meta) { estado("O Acervo ainda não foi enviado. Rode o atualizar-catalogo no computador.", true); $("trocar").hidden = false; return; }
+    const n = Number(meta.partes.integerValue), v = meta.versao.stringValue;
+    const partes = await Promise.all(Array.from({ length: n }, (_, i) => ler(`${v}_${String(i).padStart(3, "0")}`, token)));
+    if (partes.some((p) => !p)) throw new Error("parte ausente");
+    let html = await descompactar(partes.map((p) => p.dados.stringValue).join(""));
+    html = html.includes("</body>") ? html.replace(/<\/body>(?![\s\S]*<\/body>)/, () => EXTRA + "</body>") : html + EXTRA;
+    window.__acervoSair = () => signOut(auth).finally(() => location.reload());
+    document.open(); document.write(html); document.close();
+  } catch (e) {
+    if (e.code === "permission-denied") { estado("Esta conta não tem acesso ao Acervo.", true); await signOut(auth).catch(() => {}); $("entrar").disabled = false; return; }
+    console.error(e);
+    estado(e.message === "navegador antigo" ? "Este navegador é antigo demais para abrir o Acervo. Atualize-o e tente de novo." : "Não foi possível abrir o Acervo. Verifique a internet e tente de novo.", true);
+    $("entrar").disabled = false; $("trocar").hidden = false;
+  }
+}
+
+$("entrar").addEventListener("click", async () => {
+  estado(""); $("entrar").disabled = true;
+  try { if (auth.currentUser) return abrir(auth.currentUser); await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) {
+    const c = e.code || "";
+    estado(c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request" ? "Entrada cancelada." : c === "auth/popup-blocked" ? "O navegador bloqueou a janela do Google. Libere as janelas pop-up e tente de novo." : "Não foi possível entrar. Verifique a internet e tente de novo.", true);
+    $("entrar").disabled = false;
+  }
+});
+$("trocar").addEventListener("click", () => signOut(auth).then(() => { estado(""); $("entrar").disabled = false; $("trocar").hidden = true; }));
+let primeira = true;
+onAuthStateChanged(auth, (user) => { if (user) abrir(user); else if (primeira) $("entrar").disabled = false; primeira = false; });
+</script>
+</body>
+</html>

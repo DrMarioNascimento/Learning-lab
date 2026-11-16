@@ -1319,10 +1319,7 @@ function orientador(texto,warn){
 
 /* ---------- SCREENS ---------- */
 
-/* ===== Módulo do Orientador (MVP: barra + senha + shell) ===== */
-// Senha placeholder ofuscada (trocar depois). Não é segurança forte no cliente.
-const _OR_KEY = atob('b3JpZW50YTIwMjY='); // "orienta2026"
-
+/* ===== Módulo do Orientador: acesso com a conta Google (sem senha no código) ===== */
 function abrirModalSenhaOrientador(){
   if(document.getElementById('modalSenhaOrientador')) return;
   const wrap = document.createElement('div');
@@ -1331,19 +1328,16 @@ function abrirModalSenhaOrientador(){
   wrap.innerHTML = `
     <div class="modal-senha" role="dialog" aria-modal="true" aria-labelledby="tituloSenhaOr">
       <h3 id="tituloSenhaOr">Módulo do Orientador</h3>
-      <p>Área restrita. Digite a senha de acesso.</p>
-      <input id="inputSenhaOrientador" type="password" inputmode="text" autocomplete="off" placeholder="••••••••" />
-      <div class="erro-senha" id="erroSenhaOrientador"></div>
+      <p>Área restrita. Entre com a conta Google autorizada.</p>
+      <div class="erro-senha" id="erroSenhaOrientador" role="alert"></div>
       <div class="btn-row">
         <button class="btn btn-secondary" type="button" onclick="fecharModalSenhaOrientador()">Cancelar</button>
-        <button class="btn btn-primary" type="button" onclick="validarSenhaOrientador()">Entrar</button>
+        <button class="btn btn-primary" type="button" id="btnGoogleOrientador" style="white-space:nowrap;flex:1.6 1 auto;padding-left:10px;padding-right:10px" onclick="validarSenhaOrientador()">Entrar com Google</button>
       </div>
     </div>`;
   wrap.addEventListener('click', (e)=>{ if(e.target===wrap) fecharModalSenhaOrientador(); });
   document.body.appendChild(wrap);
-  const inp = document.getElementById('inputSenhaOrientador');
-  inp.focus();
-  inp.addEventListener('keydown', (e)=>{ if(e.key==='Enter') validarSenhaOrientador(); });
+  document.getElementById('btnGoogleOrientador').focus();
 }
 
 function fecharModalSenhaOrientador(){
@@ -1351,18 +1345,28 @@ function fecharModalSenhaOrientador(){
   if(el) el.remove();
 }
 
-function validarSenhaOrientador(){
-  const inp = document.getElementById('inputSenhaOrientador');
+async function validarSenhaOrientador(){
   const err = document.getElementById('erroSenhaOrientador');
-  if(!inp) return;
-  if(inp.value === _OR_KEY){
-    fecharModalSenhaOrientador();
-    goto('orientador');
-  } else {
-    err.textContent = 'Senha incorreta.';
-    inp.value = '';
-    inp.focus();
+  const btn = document.getElementById('btnGoogleOrientador');
+  if(!err || !btn) return;
+  err.textContent = '';
+  btn.disabled = true;
+  try {
+    const ok = await window.LabFB.entrarOrientador();
+    if(ok){
+      fecharModalSenhaOrientador();
+      goto('orientador');
+      return;
+    }
+    err.textContent = 'Esta conta não tem acesso ao Módulo do Orientador.';
+  } catch(e){
+    const c = e && e.code || '';
+    err.textContent = (c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') ? 'Entrada cancelada.'
+      : c === 'auth/popup-blocked' ? 'O navegador bloqueou a janela do Google. Libere as janelas pop-up e tente de novo.'
+      : 'Não foi possível entrar. Verifique a internet e tente novamente.';
+    console.error('entrarOrientador', e);
   }
+  if(document.getElementById('btnGoogleOrientador')) btn.disabled = false;
 }
 
 /* Sessão mock local (sem Firebase ainda) */
@@ -2571,6 +2575,9 @@ import {
   getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc,
   collection, onSnapshot, serverTimestamp, getDocs
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXjrSQUbsK9EMp5gxMyFHzQjIVDIzOuRw",
@@ -2584,13 +2591,28 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const PROJETO = "delineamentos";
 
 window.LabFB = {
   db,
+  // Módulo do Orientador: entra com a conta Google; quem decide se a conta tem acesso são as regras do Firestore.
+  async entrarOrientador(){
+    if(!auth.currentUser) await signInWithPopup(auth, new GoogleAuthProvider());
+    try {
+      await getDoc(doc(db, "acesso", "orientador"));
+      return true;
+    } catch(e){
+      if(e && e.code === "permission-denied"){ await signOut(auth).catch(()=>{}); return false; }
+      throw e;
+    }
+  },
+  async sairOrientador(){ await signOut(auth).catch(()=>{}); },
   async criarSessao(codigo){
     const ref = doc(db, "sessoes", codigo);
     await setDoc(ref, {
       ativa: true,
+      projeto: PROJETO,
       criadaEm: serverTimestamp(),
       criadaEmMs: Date.now()
     });
@@ -2607,12 +2629,13 @@ window.LabFB = {
     const snap = await getDoc(ref);
     if(!snap.exists()) return false;
     const d = snap.data();
-    return d.ativa === true;
+    return d.ativa === true && (d.projeto || PROJETO) === PROJETO;
   },
   async entrarAluno(codigo, alunoId, dados){
     const ref = doc(db, "sessoes", codigo, "alunos", alunoId);
     await setDoc(ref, {
       ...dados,
+      projeto: PROJETO,
       atualizadoEmMs: Date.now()
     }, { merge: true });
   },
@@ -2620,6 +2643,7 @@ window.LabFB = {
     const ref = doc(db, "sessoes", codigo, "alunos", alunoId);
     await setDoc(ref, {
       ...dados,
+      projeto: PROJETO,
       atualizadoEmMs: Date.now()
     }, { merge: true });
   },
