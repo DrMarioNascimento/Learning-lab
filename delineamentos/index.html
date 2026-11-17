@@ -1361,9 +1361,7 @@ async function validarSenhaOrientador(){
     err.textContent = 'Esta conta não tem acesso ao Módulo do Orientador.';
   } catch(e){
     const c = e && e.code || '';
-    err.textContent = (c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') ? 'Entrada cancelada.'
-      : c === 'auth/popup-blocked' ? 'O navegador bloqueou a janela do Google. Libere as janelas pop-up e tente de novo.'
-      : 'Não foi possível entrar. Verifique a internet e tente novamente.';
+    err.textContent = (c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')?'Entrada cancelada.':c==='auth/popup-blocked'?'O navegador bloqueou a janela do Google. Libere as janelas pop-up e tente de novo.':c==='auth/unauthorized-domain'?'Este endereço ainda não está autorizado no Firebase (Authentication > Settings > Authorized domains).':(c==='auth/operation-not-allowed'||c==='auth/configuration-not-found')?'O login Google ainda não está ativado no Firebase (Authentication > Sign-in method).':c==='auth/network-request-failed'?'Sem conexão. Verifique a internet e tente de novo.':'Não foi possível entrar'+(c?' (código: '+c+')':'')+'. Tente de novo.';
     console.error('entrarOrientador', e);
   }
   if(document.getElementById('btnGoogleOrientador')) btn.disabled = false;
